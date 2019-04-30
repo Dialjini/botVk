@@ -1,4 +1,4 @@
-var count = 1000000;
+var count = 100;
 var tariff = 'Бизнес';
 var time = 12;
 var date0 = '?? апреля ????г. в ??:??';
@@ -56,7 +56,7 @@ function saveSettings(){
     var data = {'botname': botname, 'login': login 'crm': crm, 'lkcrm': lkcrm, 'apikey': apikey};
     $.ajax({
         type: "PUT",
-        url: "/get",
+        url: "/getForm",
         data: data
     })
     .done(function() {
