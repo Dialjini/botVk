@@ -37,9 +37,14 @@ class UpdateClient(object):
 class GenerateHtml(object):
     @cherrypy.expose
     def index(self, **data):
-        print('som body get')
-        print(data['access_token'])
-        return open(file='index.html', encoding='utf8')
+        try:
+            print('som body get')
+            print(data['access_token'])
+            return open(file='index.html', encoding='utf8')
+
+        except Exception as er:
+            print(er)
+            return 'hello HOME'
 
 @cherrypy.expose
 class BotStatus(object):
