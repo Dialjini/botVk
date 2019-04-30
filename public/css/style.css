@@ -1,0 +1,381 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  color: #495366;
+}
+
+.nav {
+  display: inline-block;
+  width: 3%;
+  margin-top: 10px;
+  float: left;
+  margin-left: 15px;
+}
+
+.nav-item {
+  text-align: center;
+  width: 100%;
+  height: 45px;
+  border-radius: 100px;
+  padding: 12px;
+  padding-top: 16px;
+  background-color: white;
+  -webkit-transition: 0.4s all;
+  -o-transition: 0.4s all;
+  transition: 0.4s all;
+  margin-bottom: 10px;
+}
+
+.nav-item:hover {
+  cursor: pointer;
+}
+
+.active {
+  -webkit-transition: 0.8s all;
+  -o-transition: 0.8s all;
+  transition: 0.8s all;
+  background-color: #75A3FF;
+}
+
+.nav .nav-item:first-child {
+  background-image: url('../img/settings.svg');
+  background-size: 32px 32px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.nav .nav-item:last-child {
+  background-image: url('../img/card.svg');
+  background-size: 32px 32px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.nav .svg {
+  width: 35px;
+  height: 35px;
+}
+
+.header {
+  float: right;
+  width: 100%;
+  background: white;
+}
+
+.header .balance {
+  position: absolute;
+  top: 10px;
+  right: 280px;
+  display: inline-block;
+}
+
+.header .links {
+  float: right;
+  margin: 5px 20px 0 0;
+}
+
+.header .links img {
+  margin-right: 10px;
+  width: 40px;
+  height: 40px;
+}
+
+.header .links .svgLinks:hover {
+  cursor: pointer;
+}
+
+.content {
+  float: right;
+  width: 93.4%;
+  background: white;
+  border: 2px solid #75A3FF;
+  border-radius: 8px;
+}
+
+.content .settings {
+  /* border: 1px solid lightgray; */
+  position: relative;
+  height: 500px;
+  width: 94%;
+  margin: 80px 3% 0 3%;
+}
+
+.content .settings .turn-on-bot {
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.content .settings .crm {
+  font-weight: lighter;
+  margin: 10px 0 0 10px;
+}
+
+.content .settings .crm .container {
+  margin: 15px 0;
+}
+
+.content .settings .api {
+  font-weight: lighter;
+  margin: 10px 0 0 10px;
+}
+
+.content .settings .api input,
+.content .card .pay input,
+.content .settings .crm .container input,
+.content .settings .crm .container select {
+  outline: none;
+  border: none;
+  width: 200px;
+  height: 30px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 1px 1px #C2C6CE;
+  box-shadow: 0 0 1px 1px #C2C6CE;
+  padding: 0 15px 0 15px;
+  margin-left: 25px;
+  -webkit-transition: 0.5s all;
+  -o-transition: 0.5s all;
+  transition: 0.5s all;
+  font-size: 14px;
+  color: #495366;
+}
+
+.content .settings .crm .container select {
+  margin-left: 20px;
+  height: 30px;
+}
+
+.content .settings .crm .container input {
+  height: 35px;
+}
+
+.content .settings .crm .container input[name="linkCRM"] {
+  width: 305px;
+}
+
+.content .settings .api input {
+  margin-left: 13px;
+}
+
+.content .settings .api input:focus,
+.content .card .pay input:focus,
+.content .settings .crm .container input:focus {
+  -webkit-box-shadow: 0 0 2px 2px #B7D1FF;
+  box-shadow: 0 0 2px 2px #B7D1FF;
+  -webkit-transition: 0.5s all;
+  -o-transition: 0.5s all;
+  transition: 0.5s all;
+}
+
+.content .settings .info {
+  font-weight: lighter;
+  margin: 20px 0 0 10px;
+}
+
+.content .settings .info .links {
+  margin: 10px 0 20px 20px;
+  font-size: 14px;
+}
+
+.content .settings .info .links a {
+  color: #6698FF;
+  text-decoration: none;
+}
+
+.content .settings .info .links a:hover {
+  text-decoration: underline;
+}
+
+.content .settings .turBot-in-site {
+  margin-left: 10px;
+  font-weight: lighter;
+}
+
+.content .settings .turBot-in-site button {
+  margin: 15px 0;
+  border: none;
+  border-radius: 5px;
+  background-color: #5C92D1;
+  font-size: 14px;
+  font-weight: 400;
+  color: white;
+  width: 200px;
+  height: 35px;
+  outline: none;
+}
+
+.content .settings .turBot-in-site button:hover {
+  cursor: pointer;
+}
+
+.content .settings .turBot-in-site a {
+  font-size: 14px;
+  color: #6698FF;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+.content .settings .turBot-in-site a:hover {
+  text-decoration: underline;
+}
+
+.content .settings .submit {
+  position: absolute;
+  border: none;
+  font-size: 13px;
+  bottom: 20px;
+  right: -15px;
+  width: 100px;
+  height: 35px;
+  color: white;
+  outline: none;
+  background-color: #5181b8;
+  -webkit-transition: 0.5s all;
+  -o-transition: 0.5s all;
+  transition: 0.5s all;
+  border-radius: 5px;
+}
+
+.content .settings .submit:hover {
+  background-color: #5C92D1;
+  cursor: pointer;
+  -webkit-transition: 0.5s all;
+  -o-transition: 0.5s all;
+  transition: 0.5s all;
+}
+
+.content .card {
+  display: none;
+  /* border: 1px solid lightgray; */
+  position: relative;
+  height: 500px;
+  width: 94%;
+  margin: 80px 3% 0 3%;
+}
+
+.content .card .balance {
+  margin-top: 20px;
+}
+
+.content .card .balance .about {
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.header .balance .count,
+.content .card .balance .count,
+.content .card .rate .tariff {
+  display: inline;
+  padding: 5px 10px;
+  margin-left: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  border: 1px solid #f5c6cb;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: center;
+  text-align: center;
+  color: #721c24;
+  background-color: #f8d7da;
+}
+
+.content .card .rate {
+  margin: 20px 0;
+}
+
+.content .card .rate .tariff {
+  margin-left: 15px;
+  color: #004085;
+  background-color: #cce5ff;
+  border-color: #b8daff;
+}
+
+.content .card .pay {
+  position: relative;
+}
+
+.content .card .pay input {
+  margin-top: 10px;
+  width: 180px;
+  height: 35px;
+}
+
+.content .card .pay .cardC {
+  display: inline-block;
+}
+
+.content .card .pay .cardC::before {
+  position: absolute;
+  background-image: url('../img/card.svg');
+  background-size: 25px 25px;
+  background-repeat: no-repeat;
+  background-position: center;
+  top: 60px;
+  left: 199px;
+  width: 35px;
+  height: 35px;
+  border-left: 1px solid #C2C6CE;
+  background-color: #e2e3e5;
+  display: block;
+  content: "";
+  border-radius: 0 5px 5px 0;
+}
+
+.content .card .pay .money {
+  display: inline-block;
+}
+
+.content .card .pay .money::before {
+  position: absolute;
+  top: 60px;
+  left: 328px;
+  width: 30px;
+  height: 35px;
+  border-left: 1px solid #C2C6CE;
+  background-color: #e2e3e5;
+  display: block;
+  content: " ";
+  border-radius: 0 5px 5px 0;
+}
+
+.content .card .pay .money::after {
+  position: relative;
+  right: 24px;
+  content: "₽";
+}
+
+.content .card .pay .money input {
+  width: 45px;
+  padding-right: 35px;
+}
+
+.content .card .pay .money input:focus {
+  -webkit-box-shadow: 0 0 1px 1px #C2C6CE;
+  box-shadow: 0 0 1px 1px #C2C6CE;
+}
+
+.content .card .pay .submit {
+  background-color: #5181b8;
+  color: white;
+  margin-left: 10px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.content .card .pay .submit:hover {
+  background-color: #5C92D1;
+  cursor: pointer;
+}
+
+.content .card .pay .submit:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.content .card .pay input[type="email"] {
+  width: 280px;
+  margin-top: 20px;
+  padding: 0px 27px;
+}
