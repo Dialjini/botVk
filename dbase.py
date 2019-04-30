@@ -86,6 +86,12 @@ def getDate(botname, login):
         result = result + row[i]
     return result
 
+def updateClient(data):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    cursor.execute("""UPDATE client SET crm = ?, lkcrm = ?, apikey = ? WHERE botname = ? AND login = ?""", (data['crm'], data['lkcrm'], data['apikey'], data['botname'], data['login']))
+    conn.commit()
+
 def updateBalance(botname, login, new):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
