@@ -16,6 +16,7 @@ function main() {
     .done(function(result) {
         console.log(result);
         date0 = result['date'];
+        count = result['balance'];
     });
     });
   document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";

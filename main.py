@@ -14,7 +14,9 @@ print(requests.post(url=url).text)
 class GetForm(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, botname, login):
-        result = {'date': dbase.getDate(botname=botname, login=login)}
+        result = {'date': dbase.getDate(botname=botname, login=login),
+                  'balance': dbase.getBalance(botname=botname, login=login)}
+        print('created form ' + result)
         return result
 
     @cherrypy.tools.accept(media='text/plain')
