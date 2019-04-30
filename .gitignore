@@ -1,0 +1,4 @@
+*.log
+/help
+__pycache__
+/.idea
