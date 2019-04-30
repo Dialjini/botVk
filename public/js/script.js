@@ -23,7 +23,7 @@ function main() {
   document.getElementById("countTo").innerHTML = count.toFixed(2) + " &#8381;";
   document.getElementById("tariff").innerHTML = tariff;
   document.getElementById("time").innerHTML = time;
-  document.getElementById("date0").innerHTML = date0;
+  document.getElementById("date").innerHTML = date0;
 }
 
 function botStatus() {

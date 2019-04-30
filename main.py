@@ -1,6 +1,7 @@
 import requests
 import cherrypy
 import os, os
+import json
 from threading import Thread
 import dbase
 from cherrypy.lib import static
@@ -19,6 +20,8 @@ class GetForm(object):
                   'balance': dbase.getBalance(botname=botname, login=login)}
         print(result)
         return result
+       # print(json.dumps(result, sort_keys=True))
+       # return json.dumps(result, sort_keys=True)
 
     @cherrypy.tools.accept(media='text/plain')
     def PUT(self, data):
