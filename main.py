@@ -37,9 +37,10 @@ class GenerateHtml(object):
 @cherrypy.expose
 class BotStatus(object):
     @cherrypy.tools.accept(media='text/plain')
-    def GET(self, botname, login):
-        result = {'date': dbase.getDate(botname=botname, login=login)}
-        return result
+    def GET(self, botname, login, mode):
+        return 'OK'
+
+
 
 conf = {
         '/': {

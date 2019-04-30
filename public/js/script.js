@@ -33,16 +33,26 @@ function main() {
 
 }
 
-function botStatus() {
+function checkBot(checkbox) {
+if (checkbox.checked) {
     $.ajax({
         type: "GET",
         url: "/botStatus",
-        data: $("#the-string input").val()
+        data: {'botname': botname, 'login': login, 'mode': 'on'}
     })
-    .done(function(result) {
-        console.log("Bot is now" + result);
-        botStatus = result
+    .done(function() {
+        alert("Бот включен");
     });
+} else {
+ $.ajax({
+        type: "GET",
+        url: "/botStatus",
+        data: {'botname': botname, 'login': login, 'mode': 'off'}
+    })
+    .done(function() {
+        alert("Бот выключен");
+    });
+}
 }
 
 function settings() {
