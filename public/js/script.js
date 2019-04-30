@@ -6,25 +6,31 @@ var login = 'test';
 var botname = 'test';
 var crm = 'U-ON.Travel'
 var lkcrm = 'hz'
+var apikey = '4t1278fbskd'
 
 
 function main() {
     $.ajax({
         type: "GET",
         url: "/getForm",
-        data: botname, login
+        data: {'botname': botname, 'login': login}
     })
     .done(function(result) {
         console.log(result);
+        console.log(JSON.parse(result));
+        result = JSON.parse(result);
         date0 = result['date'];
-        count = result['balance'];
+        count = parseInt(result['balance']);
+        document.getElementById("date").innerHTML = date0;
+        document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";
+
     });
-    console.log(date0);
+
   document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";
   document.getElementById("countTo").innerHTML = count.toFixed(2) + " &#8381;";
   document.getElementById("tariff").innerHTML = tariff;
   document.getElementById("time").innerHTML = time;
-  document.getElementById("date").innerHTML = date0;
+
 }
 
 function botStatus() {
@@ -37,7 +43,7 @@ function botStatus() {
         console.log("Bot is now" + result);
         botStatus = result
     });
-});
+}
 
 function settings() {
   $('.nav-item:first-child').addClass('active');
@@ -54,14 +60,13 @@ function card() {
 }
 
 function saveSettings(){
-    var data = {'botname': botname, 'login': login 'crm': crm, 'lkcrm': lkcrm, 'apikey': apikey};
+
     $.ajax({
-        type: "PUT",
-        url: "/getForm",
-        data: data
+        type: "GET",
+        url: "/updateClient",
+        data: {'botname': botname, 'login': login, 'crm': crm, 'lkcrm': lkcrm, 'apikey': apikey}
     })
     .done(function() {
         console.log('settings saved');
     });
-});
 }

@@ -18,14 +18,15 @@ class GetForm(object):
         print(botname)
         result = {'date': dbase.getDate(botname=botname, login=login),
                   'balance': dbase.getBalance(botname=botname, login=login)}
-        print(result)
-        return result
-       # print(json.dumps(result, sort_keys=True))
-       # return json.dumps(result, sort_keys=True)
 
+        print(json.dumps(result, sort_keys=True))
+        return json.dumps(result, sort_keys=True)
+
+@cherrypy.expose
+class UpdateClient(object):
     @cherrypy.tools.accept(media='text/plain')
-    def PUT(self, data):
-        dbase.updateClient(data=data)
+    def GET(self, botname, login, crm, lkcrm, apikey):
+        dbase.updateClient(botname=botname, login=login, crm=crm, lkcrm=lkcrm, apikey=apikey)
 
 @cherrypy.expose
 class GenerateHtml(object):
@@ -70,6 +71,7 @@ cherrypy.config.update({'server.socket_host': '127.0.0.1',
 cherrypy.tree.mount(GenerateHtml(), '/', conf)
 cherrypy.tree.mount(GetForm(), '/getForm', conf)
 cherrypy.tree.mount(BotStatus(), '/botStatus', conf)
+cherrypy.tree.mount(UpdateClient(), '/updateClient', conf)
 
 
 cherrypy.engine.start()
