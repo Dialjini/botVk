@@ -7,32 +7,7 @@ var botname = 'test';
 var crm = 'U-ON.Travel'
 var lkcrm = 'hz'
 
-$( document ).ready(function() {
-    $.ajax({
-        type: "GET",
-        url: "/getForm",
-        data: botname, login
-    })
-    .done(function(result) {
-        console.log(result);
-        date0 = result['date'];
-        count = result['balance'];
-    });
-    });
-    console.log(date0);
-});
-    $.ajax({
-        type: "GET",
-        url: "/getForm",
-        data: botname, login
-    })
-    .done(function(result) {
-        console.log(result);
-        date0 = result['date'];
-        count = result['balance'];
-    });
-    });
-    console.log(date0);
+
 function main() {
     $.ajax({
         type: "GET",
@@ -43,7 +18,6 @@ function main() {
         console.log(result);
         date0 = result['date'];
         count = result['balance'];
-    });
     });
     console.log(date0);
   document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";
