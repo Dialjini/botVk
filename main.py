@@ -17,6 +17,10 @@ class GetForm(object):
         result = {'date': dbase.getDate(botname=botname, login=login)}
         return result
 
+    @cherrypy.tools.accept(media='text/plain')
+    def PUT(self, data):
+        dbase.updateClient(data=data)
+
 @cherrypy.expose
 class GenerateHtml(object):
     @cherrypy.tools.accept(media='text/plain')
