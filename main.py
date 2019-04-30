@@ -33,10 +33,10 @@ class UpdateClient(object):
     def GET(self, botname, login, crm, lkcrm, apikey):
         dbase.updateClient(botname=botname, login=login, crm=crm, lkcrm=lkcrm, apikey=apikey)
 
-
+@cherrypy.expose
 class GenerateHtml(object):
-    @cherrypy.expose
-    def index(self, **data):
+    @cherrypy.tools.accept(media='text/plain')
+    def GET(self, **data):
         try:
             print('som body get')
             print(data['access_token'])
