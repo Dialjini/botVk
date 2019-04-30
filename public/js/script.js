@@ -2,10 +2,11 @@ var count = 1000000;
 var tariff = 'Бизнес';
 var time = 12;
 var date0 = '?? апреля ????г. в ??:??';
-//$.get("/getForm").done(function(result){
-//        console.log(result)
-//        date0 = result['date']
-//    });
+var login = 'test';
+var botname = 'test';
+var crm = 'U-ON.Travel'
+var lkcrm = 'hz'
+
 function main() {
     $.ajax({
         type: "GET",
@@ -51,7 +52,14 @@ function card() {
 }
 
 function saveSettings(){
-    $.get("/get").done(function(result){
-    console.log(result);
+    var data = {'botname': botname, 'login': login 'crm': crm, 'lkcrm': lkcrm, 'apikey': apikey};
+    $.ajax({
+        type: "PUT",
+        url: "/get",
+        data: data
+    })
+    .done(function() {
+        console.log('settings saved');
     });
+});
 }
