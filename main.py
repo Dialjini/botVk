@@ -10,17 +10,25 @@ from cherrypy.lib import static
 url = 'test.vkApp.com'
 
 botactive = False
-url = 'https://api.vk.com/method/users.get?user_id=294940138&v=5.52&access_token=737c6a19d16db39e7dee92e584c64717b125dbc158aebb486c5cec455570a515473c1e3d265c970b1255c'
+access_token = '737c6a19d16db39e7dee92e584c64717b125dbc158aebb486c5cec455570a515473c1e3d265c970b1255c'
 secKey = 'D7UqxfSz3SU8bW5fJmnF'
 serviceKey = '88359d2a88359d2a88359d2a5f885c21918883588359d2ad492dab541f7422bd024a392'
 
 # print(requests.post(url=url).text)
 
+class user():
+    login = ''
+    botname = ''
+
 @cherrypy.expose
 class GetForm(object):
     @cherrypy.tools.accept(media='text/plain')
-    def GET(self, botname, login):
+    def GET(self, **data):
+        print(data)
+        login = user.login
+        botname = user.botname
         print(botname)
+        print(login)
         result = {'date': dbase.getDate(botname=botname, login=login),
                   'balance': dbase.getBalance(botname=botname, login=login)}
 
@@ -30,26 +38,31 @@ class GetForm(object):
 @cherrypy.expose
 class UpdateClient(object):
     @cherrypy.tools.accept(media='text/plain')
-    def GET(self, botname, login, crm, lkcrm, apikey):
+    def GET(self, crm, lkcrm, apikey, **data):
+        print(data)
+        botname = user.botname
+        login = user.login
         dbase.updateClient(botname=botname, login=login, crm=crm, lkcrm=lkcrm, apikey=apikey)
 
 @cherrypy.expose
 class GenerateHtml(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
-        try:
-            print('som body get')
-            print(data['access_token'])
+        if (data != {'login': 'test', 'botname': 'test'}):
+            user.login = data['user_id']
+            user.botname = data['api_id']
             return open(file='index.html', encoding='utf8')
 
-        except Exception as er:
-            print(er)
-            return 'hello HOME'
+        else:
+            print(data)
+            print('login = ' + user.login)
+            print('botname = ' + user.botname)
+            return json.dumps({'login': user.login, 'botname': user.botname}, sort_keys=True)
 
 @cherrypy.expose
 class BotStatus(object):
     @cherrypy.tools.accept(media='text/plain')
-    def GET(self, botname, login, mode):
+    def GET(self, **data):
         return 'OK'
 
 

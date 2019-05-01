@@ -42,6 +42,7 @@ def getLimit(botname, login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
     row = cursor.execute("""SELECT date FROM client WHERE botname = ? AND login = ?""", (botname, login))
+    print('answer' + row)
     row = int(row.fetchall()[0][0])
     realDate = str(datetime.datetime.today())
     flag = 0
@@ -117,5 +118,5 @@ def createTables():
                    """)
     print('client table is ready')
 
-print(getDate('test', 'test'))
-# addClient(botname = 'test', login='test', password='vafel228' ,apikey='462718ufgd', balance='100000', crm='UonTravel', date='201904292001', lkcrm='hz', email='kustovdanil2@gmail.com', rate='business')
+# print(getDate('test', 'test'))
+# addClient(botname='6929595', login='294940138', password='vafel228' ,apikey='462718ufgd', crm='UonTravel', date='201904292001', lkcrm='hz', email='kustovdanil2@gmail.com', rate='business')

@@ -2,22 +2,36 @@ var count = 100;
 var tariff = 'Бизнес';
 var time = 12;
 var date0 = '?? апреля ????г. в ??:??';
-var login = 'test';
-var botname = 'test';
-var crm = 'U-ON.Travel'
-var lkcrm = 'hz'
-var apikey = '4t1278fbskd'
+var crm = 'U-ON.Travel';
+var lkcrm = 'hz';
+var apikey = '4t1278fbskd';
+
+class User {
+    constructor() {
+        this.login = 'test';
+        this.botname = 'test';
+    }
+}
+let user = new User;
+
+$.ajax({
+    type: "GET",
+    url:"/"
+})
+.done(function(result) {
+    result = JSON.parse(result);
+    user.login = result['login'];
+    user.botname = result['botname'];
+});
 
 
 function main() {
     $.ajax({
         type: "GET",
         url: "/getForm",
-        data: {'botname': botname, 'login': login}
+        data: {'login': user.login, 'botname': user.botname}
     })
     .done(function(result) {
-        console.log(result);
-        console.log(JSON.parse(result));
         result = JSON.parse(result);
         date0 = result['date'];
         count = parseInt(result['balance']);
@@ -38,7 +52,7 @@ if (checkbox.checked) {
     $.ajax({
         type: "GET",
         url: "/botStatus",
-        data: {'botname': botname, 'login': login, 'mode': 'on'}
+        data: {'mode': 'on', 'login': user.login, 'botname': user.botname}
     })
     .done(function() {
         alert("Бот включен");
@@ -47,7 +61,7 @@ if (checkbox.checked) {
  $.ajax({
         type: "GET",
         url: "/botStatus",
-        data: {'botname': botname, 'login': login, 'mode': 'off'}
+        data: {'mode': 'off', 'login': user.login, 'botname': user.botname}
     })
     .done(function() {
         alert("Бот выключен");
@@ -74,7 +88,7 @@ function saveSettings(){
     $.ajax({
         type: "GET",
         url: "/updateClient",
-        data: {'botname': botname, 'login': login, 'crm': crm, 'lkcrm': lkcrm, 'apikey': apikey}
+        data: {'crm': crm, 'lkcrm': lkcrm, 'apikey': apikey, 'login': user.login, 'botname': user.botname}
     })
     .done(function() {
         console.log('settings saved');
