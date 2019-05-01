@@ -84,6 +84,13 @@ class GenerateHtml(object):
 
 
 @cherrypy.expose
+class upMoney(object):
+    @cherrypy.tools.accept(media='text/plain')
+    def GET(self, **data):
+        dbase.updateBalance(botname=user.botname, login=user.login, new=data['money'])
+        return 'OK'
+
+@cherrypy.expose
 class BotStatus(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
@@ -109,8 +116,8 @@ conf = {
     }
 }
 
-cherrypy.config.update({'server.socket_host': '127.0.0.1',
-                        'server.socket_port': 443,
+cherrypy.config.update({'server.socket_host': '31.31.201.218',
+                        'server.socket_port': 8050,
                         'tools.sessions.on': True,
                         'engine.autoreload.on': False,
                         'log.access_file': './access.log',
@@ -124,6 +131,7 @@ cherrypy.tree.mount(GenerateHtml(), '/', conf)
 cherrypy.tree.mount(GetForm(), '/getForm', conf)
 cherrypy.tree.mount(BotStatus(), '/botStatus', conf)
 cherrypy.tree.mount(UpdateClient(), '/updateClient', conf)
+cherrypy.tree.mount(UpdateClient(), '/upMoney', conf)
 
 cherrypy.engine.start()
 cherrypy.engine.block()
