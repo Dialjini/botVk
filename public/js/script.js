@@ -21,15 +21,19 @@ function main() {
         result = JSON.parse(result);
         date0 = result['date'];
         count = parseInt(result['balance']);
+        time = result['count'];
         document.getElementById("date").innerHTML = date0;
         document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";
+        document.getElementById("countTo").innerHTML = count.toFixed(2) + " &#8381;";
+        document.getElementById("tariff").innerHTML = tariff;
+        document.getElementById("time").innerHTML = time;
 
     });
 
-  document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";
-  document.getElementById("countTo").innerHTML = count.toFixed(2) + " &#8381;";
-  document.getElementById("tariff").innerHTML = tariff;
-  document.getElementById("time").innerHTML = time;
+  //document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";
+ // document.getElementById("countTo").innerHTML = count.toFixed(2) + " &#8381;";
+  //document.getElementById("tariff").innerHTML = tariff;
+ // document.getElementById("time").innerHTML = time;
 
 }
 
