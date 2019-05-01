@@ -45,16 +45,17 @@
         <div class="crm">
           <span>Выберите вашу CRM (если её нет в списке - выбирайте пункт eMail)</span>
           <div class="container">
-            <select class="" name="CRM">
+            <select class="" name="CRM" onchange="selectMode(this)">
+              <option value="" selected disabled>Не выбрано</option>
               <option value="uOnTravel">U-ON.Travel</option>
             </select>
-            <input type="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Введите eMail">
-            <input type="text" name="linkCRM" placeholder="Укажите ссылку на Ваш ЛК CRM из браузера">
+            <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Введите eMail">
+            <input type="text" id="linkCRM" name="linkCRM" placeholder="Укажите ссылку на Ваш ЛК CRM">
           </div>
         </div>
         <div class="api">
           <span>Укажите ваш API ключ из CRM:</span>
-          <input type="text" name="api-key" maxlength="50">
+          <input type="text" id="api-key" name="api-key" maxlength="50">
         </div>
         <div class="info">
           <span>Это нужно, чтобы заявки из ТурБота попадали к вам в CRM</span>
