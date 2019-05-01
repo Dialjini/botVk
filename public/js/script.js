@@ -37,11 +37,11 @@ function main() {
         count = parseInt(result['balance']);
         document.getElementById("date").innerHTML = date0;
         document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";
-
+        document.getElementById("countTo").innerHTML = count.toFixed(2) + " &#8381;";
     });
 
-  document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";
-  document.getElementById("countTo").innerHTML = count.toFixed(2) + " &#8381;";
+  //document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";
+ // document.getElementById("countTo").innerHTML = count.toFixed(2) + " &#8381;";
   document.getElementById("tariff").innerHTML = tariff;
   document.getElementById("time").innerHTML = time;
 
