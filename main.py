@@ -6,11 +6,7 @@ import price
 from cherrypy.lib import static
 
 url = 'test.vkApp.com'
-
 botactive = False
-access_token = '737c6a19d16db39e7dee92e584c64717b125dbc158aebb486c5cec455570a515473c1e3d265c970b1255c'
-secKey = 'D7UqxfSz3SU8bW5fJmnF'
-serviceKey = '88359d2a88359d2a88359d2a5f885c21918883588359d2ad492dab541f7422bd024a392'
 
 
 # print(requests.post(url=url).text)
@@ -89,6 +85,7 @@ class upMoney(object):
     def GET(self, **data):
         dbase.updateBalance(botname=user.botname, login=user.login, new=data['money'])
         return 'OK'
+
 
 @cherrypy.expose
 class BotStatus(object):
