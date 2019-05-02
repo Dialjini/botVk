@@ -5,7 +5,7 @@ import dbase
 import price
 from cherrypy.lib import static
 
-url = 'test.vkApp.com'
+url = '31.31.201.218:8050'
 botactive = False
 
 
@@ -33,7 +33,6 @@ def getCount(balance):
 class user():
     login = ''
     botname = ''
-    group_id = ''
 
 
 @cherrypy.expose
@@ -58,7 +57,7 @@ class GetForm(object):
 class UpdateClient(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
-        print(data)
+        print('here ' + str(data))
         botname = user.botname
         login = user.login
         if(dbase.clientIsNew(login)):
@@ -77,12 +76,9 @@ class GenerateHtml(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
         if (data != {'login': 'test', 'botname': 'test'}):
+            print(data)
             user.login = data['user_id']
-            if(login == '0'):
-                user.login = data['group_id']
-
             user.botname = data['api_id']
-            user.group_id = data['group_id']
             return open(file='index.html', encoding='utf8')
 
         else:
@@ -96,9 +92,10 @@ class GenerateHtml(object):
 class getWidget(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self):
-        widget = open('widget.js')
-        widget_r = open('widget_r.js')
-        result = str(widget) + user.group_id + str(widget_r)
+        widget ='<!— VK Widget —><div id="vk_community_messages"></div><script type="text/javascript">' \
+                'VK.Widgets.CommunityMessages("vk_community_messages",'
+        widget_r = ' , {expanded: "1",tooltipButtonText: "Есть вопрос?"});</script>'
+        result = widget + user.login + widget_r
         return result
 
 @cherrypy.expose
@@ -134,8 +131,8 @@ conf = {
     }
 }
 
-cherrypy.config.update({'server.socket_host': '31.31.201.218',
-                        'server.socket_port': 8050,
+cherrypy.config.update({'server.socket_host': '127.0.0.1',
+                        'server.socket_port': 443,
                         'tools.sessions.on': True,
                         'engine.autoreload.on': False,
                         'log.access_file': './access.log',
@@ -150,7 +147,7 @@ cherrypy.tree.mount(GetForm(), '/getForm', conf)
 cherrypy.tree.mount(BotStatus(), '/botStatus', conf)
 cherrypy.tree.mount(UpdateClient(), '/updateClient', conf)
 cherrypy.tree.mount(UpdateClient(), '/upMoney', conf)
-cherrypy.tree.mount(UpdateClient(), '/getWidget', conf)
+cherrypy.tree.mount(getWidget(), '/getWidget', conf)
 
 cherrypy.engine.start()
 cherrypy.engine.block()

@@ -15,7 +15,7 @@ function getWidget() {
         url: "/getWidget",
     })
     .done(function(result) {
-        alarm("result");
+        alert(result);
     });
 
 }
@@ -49,7 +49,7 @@ function main() {
 }
 
 function checkBot(checkbox) {
-    if (count != "") {
+     if(document.getElementById("count").innerHTML) {
         if (checkbox.checked) {
             $.ajax({
                 type: "GET",
@@ -72,7 +72,7 @@ function checkBot(checkbox) {
             }
     }
     else {
-        alert('Сначала введите свои данные, после чего нажмити кнопку "сохратить"');
+        alert('Сначала введите свои данные, после чего нажмите кнопку "Сохранить"');
     }
 }
 

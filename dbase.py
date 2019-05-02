@@ -68,12 +68,12 @@ def getClientsUsername():
 def deleteClient(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    cursor.execute("""DELETE FROM client WHERE login = ?""", (login))
+    cursor.execute("""DELETE FROM client WHERE login = ?""", (login,))
 
 def getLimit(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    row = cursor.execute("""SELECT date FROM client WHERE login = ?""", (login))
+    row = cursor.execute("""SELECT date FROM client WHERE login = ?""", (login,))
     row = int(row.fetchall()[0][0])
     realDate = str(datetime.datetime.today())
     flag = 0
@@ -96,7 +96,7 @@ def getDate(login):
     cursor = conn.cursor()
     months = {'01': 'января', '02': 'февраля', '03': 'марта', '04': 'апреля', '05': 'мая', '06': 'июня', '07': 'июля',
               '08': 'августа', '09': 'сентября', '10': 'октября', '11': 'ноября', '12': 'декабря'}
-    row = cursor.execute("""SELECT date FROM client WHERElogin = ?""", (login))
+    row = cursor.execute("""SELECT date FROM client WHERE login = ?""", (login,))
     row = row.fetchall()[0][0]
     subres = ''
     result = ''
@@ -127,7 +127,7 @@ def updateClient(login, crm, lkcrm, apikey, botname):
 def updateBalance(login, new):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    row = cursor.execute("""SELECT balance FROM client WHERE login = ?""", (ogin))
+    row = cursor.execute("""SELECT balance FROM client WHERE login = ?""", (login,))
     row = int(row.fetchall()[0][0])
     row = row + int(new)
     cursor.execute("""UPDATE client SET balance = ? WHERE login = ?""", (row, login))
@@ -136,7 +136,7 @@ def updateBalance(login, new):
 def getBalance(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    row = cursor.execute("""SELECT balance FROM client WHERE login = ?""", (login))
+    row = cursor.execute("""SELECT balance FROM client WHERE login = ?""", (login,))
 
     return row.fetchall()[0][0]
 
