@@ -49,9 +49,9 @@
               <option value="uOnTravel">U-ON.Travel</option>
               <option value="myDocuments">Мои документы | Туризм</option>
               <option value="tourcontrol">tourControl</option>
-              <option value ="email">email</option>
+              <option value ="email">eMail</option>
             </select>
-            <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Введите eMail">
+            <input type="email" class="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="Введите eMail">
             <input type="text" id="linkCRM" name="linkCRM" placeholder="Укажите ссылку на Ваш ЛК CRM">
           </div>
         </div>
@@ -70,7 +70,7 @@
         <hr color="#EFEFEF" size="1">
         <div class="turBot-in-site">
           <span>ТурБот на сайт</span> <br>
-          <a target="_blank"><button type="button" onclick = "getWidget()" name="button">Получить код виджета</button></a> <br>
+          <a target="_blank"><button type="button" onclick="getWidget()" name="button">Получить код виджета</button></a> <br>
           <a href="#" target="_blank">Как установить виджет на сайт</a>
         </div>
         <input class="submit" type="submit" name="saveSettings" value="Сохранить" onclick = "saveSettings()">

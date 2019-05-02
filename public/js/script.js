@@ -116,7 +116,12 @@ function saveSettings(){
 
 function selectMode(selectObject) {
   crm = selectObject.value;
-}
+  if (crm === 'email') {
+    $('.email').fadeIn(1000);
+  } else {
+    $('.email').fadeOut(100);
+  }
+ }
 
 function id(id) {
   return document.getElementById(id);

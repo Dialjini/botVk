@@ -152,6 +152,10 @@ html, body {
   height: 35px;
 }
 
+.content .settings .crm .container .email {
+  display: none;
+}
+
 .content .settings .crm .container input[name="linkCRM"] {
   width: 220px;
 }
