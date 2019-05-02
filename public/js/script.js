@@ -9,7 +9,16 @@ var lkcrm = 'hz'
 var apikey = '4t1278fbskd'
 
 
+function getWidget() {
+    $.ajax({
+        type: "GET",
+        url: "/getWidget",
+    })
+    .done(function(result) {
+        alarm("result");
+    });
 
+}
 
 function main() {
     $.ajax({
