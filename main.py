@@ -56,11 +56,19 @@ class GetForm(object):
 @cherrypy.expose
 class UpdateClient(object):
     @cherrypy.tools.accept(media='text/plain')
-    def GET(self, crm, lkcrm, apikey, **data):
+    def GET(self, **data):
         print(data)
         botname = user.botname
         login = user.login
-        dbase.updateClient(botname=botname, login=login, crm=crm, lkcrm=lkcrm, apikey=apikey)
+        if(dbase.clientIsNew(login)):
+            if(dbase.getToday()['flag'] == '+'):
+                date = dbase.getToday()['result'] + 1000000
+            else:
+                date = dbase.getToday()['result'] - 12000000
+            dbase.addClient(botname=botname, login=login, crm=data['crm'], date=date, apikey=data['apikey'],
+                            email='0', lkcrm=data['lkcrm'], password='', rate='business')
+        else:
+            dbase.updateClient(botname=botname, login=login, crm=data['crm'], lkcrm=data['lkcrm'], apikey=data['apikey'])
 
 
 @cherrypy.expose

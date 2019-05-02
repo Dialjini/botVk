@@ -1,6 +1,38 @@
 import sqlite3
 import datetime
 
+def clientIsNew(login):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    row = cursor.execute("""SELECT botname, login, password FROM client""")
+    row = row.fetchall()[1]
+    print(row)
+    for i in row:
+        if(i == login):
+            return False
+    return True
+
+
+def getToday():
+    realDate = str(datetime.datetime.today())
+    flag = 0
+    result = ''
+    for i in realDate:
+        res = 'error'
+        if ((i != '-') & (i != ' ') & (i != ':')):
+            result = result + i
+            year = int(result) * 100000000 + 12000000
+        if ((i == ':') & (flag == 1)):  # 2019-04-29 20:01 = 201904292001 in db
+            break  # datetime.datetime.today() = 2019-04-29 20:02:14.760226
+        if ((i == ':') & (flag == 0)):  # 23 апреля 2019г. в 09:03
+            flag = 1
+    if (int(result) >= int(year)):
+        res = '0'
+    else:
+        res = '+'
+
+    return {'result': int(result), 'flag': res}
+
 def addClient(botname, login, password, apikey, crm, email, lkcrm, rate, date):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
@@ -12,7 +44,7 @@ def getClients():
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
 
-    row = cursor.execute("""SELECT botname, login, password FROM client""")
+    row = cursor.execute("""SELECT botname, login, password, rate FROM client""")
 
     result = []
 
@@ -42,7 +74,6 @@ def getLimit(botname, login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
     row = cursor.execute("""SELECT date FROM client WHERE botname = ? AND login = ?""", (botname, login))
-    print('answer' + row)
     row = int(row.fetchall()[0][0])
     realDate = str(datetime.datetime.today())
     flag = 0
