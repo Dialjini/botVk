@@ -45,8 +45,8 @@ class GetForm(object):
         botname = user.botname
         print(botname)
         print(login)
-        date = dbase.getDate(botname=botname, login=login)
-        balance = dbase.getBalance(botname=botname, login=login)
+        date = dbase.getDate(login=login)
+        balance = dbase.getBalance(login=login)
         result = {'date': date, 'balance': balance,
                   'count': getCount(balance)}
 
@@ -78,6 +78,9 @@ class GenerateHtml(object):
     def GET(self, **data):
         if (data != {'login': 'test', 'botname': 'test'}):
             user.login = data['user_id']
+            if(login == '0'):
+                user.login = data['group_id']
+
             user.botname = data['api_id']
             user.group_id = data['group_id']
             return open(file='index.html', encoding='utf8')
@@ -102,7 +105,7 @@ class getWidget(object):
 class upMoney(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
-        dbase.updateBalance(botname=user.botname, login=user.login, new=data['money'])
+        dbase.updateBalance(login=user.login, new=data['money'])
         return 'OK'
 
 @cherrypy.expose

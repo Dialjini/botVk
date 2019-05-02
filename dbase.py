@@ -65,15 +65,15 @@ def getClientsUsername():
 
     return result[0][0]
 
-def deleteClient(botname, login):
+def deleteClient(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    cursor.execute("""DELETE FROM client WHERE botname = ? AND login = ?""", (botname, login))
+    cursor.execute("""DELETE FROM client WHERE login = ?""", (login))
 
-def getLimit(botname, login):
+def getLimit(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    row = cursor.execute("""SELECT date FROM client WHERE botname = ? AND login = ?""", (botname, login))
+    row = cursor.execute("""SELECT date FROM client WHERE login = ?""", (login))
     row = int(row.fetchall()[0][0])
     realDate = str(datetime.datetime.today())
     flag = 0
@@ -91,12 +91,12 @@ def getLimit(botname, login):
     else:
         return row-realDate
 
-def getDate(botname, login):
+def getDate(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
     months = {'01': 'января', '02': 'февраля', '03': 'марта', '04': 'апреля', '05': 'мая', '06': 'июня', '07': 'июля',
               '08': 'августа', '09': 'сентября', '10': 'октября', '11': 'ноября', '12': 'декабря'}
-    row = cursor.execute("""SELECT date FROM client WHERE botname = ? AND login = ?""", (botname, login))
+    row = cursor.execute("""SELECT date FROM client WHERElogin = ?""", (login))
     row = row.fetchall()[0][0]
     subres = ''
     result = ''
@@ -118,25 +118,25 @@ def getDate(botname, login):
         result = result + row[i]
     return result
 
-def updateClient(botname, login, crm, lkcrm, apikey):
+def updateClient(login, crm, lkcrm, apikey, botname):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    cursor.execute("""UPDATE client SET crm = ?, lkcrm = ?, apikey = ? WHERE botname = ? AND login = ?""", (crm, lkcrm, apikey, botname, login))
+    cursor.execute("""UPDATE client SET botname = ?, crm = ?, lkcrm = ?, apikey = ? WHERE login = ?""", (botname, crm, lkcrm, apikey, login))
     conn.commit()
 
-def updateBalance(botname, login, new):
+def updateBalance(login, new):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    row = cursor.execute("""SELECT balance FROM client WHERE botname = ? AND login = ?""", (botname, login))
+    row = cursor.execute("""SELECT balance FROM client WHERE login = ?""", (ogin))
     row = int(row.fetchall()[0][0])
     row = row + int(new)
-    cursor.execute("""UPDATE client SET balance = ? WHERE botname = ? AND login = ?""", (row, botname, login))
+    cursor.execute("""UPDATE client SET balance = ? WHERE login = ?""", (row, login))
     conn.commit()
 
-def getBalance(botname, login):
+def getBalance(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    row = cursor.execute("""SELECT balance FROM client WHERE botname = ? AND login = ?""", (botname, login))
+    row = cursor.execute("""SELECT balance FROM client WHERE login = ?""", (login))
 
     return row.fetchall()[0][0]
 
