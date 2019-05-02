@@ -33,6 +33,7 @@ def getCount(balance):
 class user():
     login = ''
     botname = ''
+    group_id = ''
 
 
 @cherrypy.expose
@@ -78,6 +79,7 @@ class GenerateHtml(object):
         if (data != {'login': 'test', 'botname': 'test'}):
             user.login = data['user_id']
             user.botname = data['api_id']
+            user.group_id = data['group_id']
             return open(file='index.html', encoding='utf8')
 
         else:
@@ -88,12 +90,20 @@ class GenerateHtml(object):
 
 
 @cherrypy.expose
+class getWidget(object):
+    @cherrypy.tools.accept(media='text/plain')
+    def GET(self):
+        widget = open('widget.js')
+        widget_r = open('widget_r.js')
+        result = str(widget) + user.group_id + str(widget_r)
+        return result
+
+@cherrypy.expose
 class upMoney(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
         dbase.updateBalance(botname=user.botname, login=user.login, new=data['money'])
         return 'OK'
-
 
 @cherrypy.expose
 class BotStatus(object):
@@ -137,6 +147,9 @@ cherrypy.tree.mount(GetForm(), '/getForm', conf)
 cherrypy.tree.mount(BotStatus(), '/botStatus', conf)
 cherrypy.tree.mount(UpdateClient(), '/updateClient', conf)
 cherrypy.tree.mount(UpdateClient(), '/upMoney', conf)
+cherrypy.tree.mount(UpdateClient(), '/getWidget', conf)
 
 cherrypy.engine.start()
 cherrypy.engine.block()
+
+
