@@ -39,25 +39,31 @@ function main() {
 }
 
 function checkBot(checkbox) {
-if (checkbox.checked) {
-    $.ajax({
-        type: "GET",
-        url: "/botStatus",
-        data: {'botname': botname, 'login': login, 'mode': 'on'}
-    })
-    .done(function() {
-        alert("Бот включен");
-    });
-} else {
- $.ajax({
-        type: "GET",
-        url: "/botStatus",
-        data: {'botname': botname, 'login': login, 'mode': 'off'}
-    })
-    .done(function() {
-        alert("Бот выключен");
-    });
-}
+    if (count != "") {
+        if (checkbox.checked) {
+            $.ajax({
+                type: "GET",
+                url: "/botStatus",
+                data: {'botname': botname, 'login': login, 'mode': 'on'}
+            })
+            .done(function() {
+                alert("Бот включен");
+            });
+            }
+            else {
+                $.ajax({
+                    type: "GET",
+                    url: "/botStatus",
+                    data: {'botname': botname, 'login': login, 'mode': 'off'}
+                })
+                .done(function() {
+                    alert("Бот выключен");
+                });
+            }
+    }
+    else {
+        alert('Сначала введите свои данные, после чего нажмити кнопку "сохратить"');
+    }
 }
 
 function settings() {
