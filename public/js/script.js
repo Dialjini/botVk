@@ -53,6 +53,7 @@ function main() {
 
 function checkBot(checkbox) {
   if (id('count').innerHTML) {
+    if(id('date').innerHTML < 30) {
     if (checkbox.checked) {
       $.ajax({
           type: "GET",
@@ -79,6 +80,10 @@ function checkBot(checkbox) {
         .done(function() {
           alert("Бот выключен");
         });
+    }
+    }
+    else {
+     alert("Бот отключён. Пополните баланс.");
     }
   } else {
     alert('Сначала введите свои данные, после чего нажмите кнопку "Сохранить"');
