@@ -133,8 +133,8 @@ conf = {
     }
 }
 
-cherrypy.config.update({'server.socket_host': '127.0.0.1',
-                        'server.socket_port': 443,
+cherrypy.config.update({'server.socket_host': '31.31.201.218',
+                        'server.socket_port': 8050,
                         'tools.sessions.on': True,
                         'engine.autoreload.on': False,
                         'log.access_file': './access.log',
