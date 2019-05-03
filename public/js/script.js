@@ -132,8 +132,10 @@ function selectMode(selectObject) {
   crm = selectObject.value;
   if (crm === 'email') {
     $('.email').fadeIn(1000);
+    $('.linkCRM').fadeOut(100);
   } else {
     $('.email').fadeOut(100);
+    $('.linkCRM').fadeIn(1000);
   }
 }
 
