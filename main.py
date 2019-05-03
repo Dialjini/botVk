@@ -45,6 +45,8 @@ class GetForm(object):
         print(botname)
         print(login)
         date = dbase.getDate(login=login)
+        if(dbase.getLimit(login) == -1):
+            date = date + ', Бот отключён. Чтобы восстановить работу бота - пополните баланс'
         balance = dbase.getBalance(login=login)
         result = {'date': date, 'balance': balance,
                   'count': getCount(balance)}
