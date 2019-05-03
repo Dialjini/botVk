@@ -230,6 +230,11 @@ html, body {
   text-decoration: underline;
 }
 
+#api-key {
+  margin-left: 20px;
+  width: 220px;
+}
+
 .content .settings .submit {
   position: absolute;
   border: none;
