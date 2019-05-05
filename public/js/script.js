@@ -40,13 +40,23 @@ function main() {
       count = parseInt(result['balance']);
       time = result['count'];
       id('crm').value = crm;
-      id('linkcrm').innerHTML = lkcrm;
-      id('api-key').innerHTML = apikey;
+      if(crm === 'email') {
+        id('email').value = lkcrm;
+      }
+      else {
+       id('linkCRM').value = lkcrm;
+       }
+
+      id('api-key').value = apikey;
       id('date').innerHTML = date0;
       id('count').innerHTML = count.toFixed(2) + " &#8381;";
       id('countTo').innerHTML = count.toFixed(2) + " &#8381;";
       id('tariff').innerHTML = tariff;
       id('time').innerHTML = time;
+       if (id('crm').value === 'email') {
+        $('.email').fadeIn(1000);
+        $('.linkCRM').fadeOut(0);
+        }
 
     });
 
@@ -118,8 +128,9 @@ function saveSettings() {
   var count = id('count').innerHTML;
   console.log(crm);
 
-  if (eMail != "") {
-    crm = eMail;
+  if (id("crm").value == "email") {
+    lkcrm = eMail;
+    crm = 'email';
   }
 
 

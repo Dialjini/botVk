@@ -5,10 +5,10 @@ def clientIsNew(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
     row = cursor.execute("""SELECT botname, login, password FROM client""")
-    row = row.fetchall()[1]
+    row = row.fetchall()
     print(row)
     for i in row:
-        if(i == login):
+        if(i[1] == login):
             return False
     return True
 
@@ -63,12 +63,13 @@ def getClientsUsername():
     for i in row:
         result.append(i)
 
-    return result[0][0]
+    return result
 
-def getFields(login):
+def getBalance(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    cursor.execute("""SELECT FROM client WHERE login = ?""", (login,))
+    row = cursor.execute("""SELECT balance FROM client WHERE login = ?""", (login,))
+    return row.fetchall()[0][0]
 
 def deleteClient(login):
     conn = sqlite3.connect("vk.db")
@@ -145,7 +146,7 @@ def updateBalance(login, new):
     cursor.execute("""UPDATE client SET balance = ? WHERE login = ?""", (row, login))
     conn.commit()
 
-def getBalance(login):
+def getFields(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
     row = cursor.execute("""SELECT crm, lkcrm, apikey balance FROM client WHERE login = ?""", (login,))
@@ -161,5 +162,6 @@ def createTables():
                    """)
     print('client table is ready')
 
-# print(getDate('test', 'test'))
+
+
 # addClient(botname='6929595', login='294940138', password='vafel228' ,apikey='462718ufgd', crm='UonTravel', date='201904292001', lkcrm='hz', email='kustovdanil2@gmail.com', rate='business')

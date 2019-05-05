@@ -25,18 +25,21 @@ def reloadSubscribe(login):
         dbase.updateBalance(login, -2490)
         return True
     return False
+
+
 def getCount(balance):
     result = 0
+    balance = int(balance)
     while (True):
-        if ((int(balance) - price.price['year']) >= 0):
+        if ((balance - price.price['year']) >= 0):
             balance = balance - price.price['year']
             result = result + 365
             continue
-        if ((int(balance) - price.price['3_months']) >= 0):
+        if ((balance - price.price['3_months']) >= 0):
             balance = balance - price.price['3_months']
             result = result + 90
             continue
-        if ((int(balance) - price.price['month']) >= 0):
+        if ((balance - price.price['month']) >= 0):
             balance = balance - price.price['month']
             result = result + 30
             continue
@@ -65,7 +68,7 @@ class GetForm(object):
                 date = date + ', Бот отключён. Чтобы восстановить работу бота - пополните баланс'
         balance = dbase.getBalance(login=login)
         result = {'date': date, 'balance': balance,
-                  'count': getCount(balance), 'crm': dbase.getFields(login)['crm'], 'lkcrm': dbase.getFields(login)['lkcrm'], 'apikey': dbase.getFields(login)['apikey']}
+                  'count': getCount(balance), 'crm': dbase.getFields(login)[0], 'lkcrm': dbase.getFields(login)[1], 'apikey': dbase.getFields(login)[2]}
 
         print(json.dumps(result, sort_keys=True))
         return json.dumps(result, sort_keys=True)
@@ -78,7 +81,9 @@ class UpdateClient(object):
         print('here ' + str(data))
         botname = user.botname
         login = user.login
+        print(dbase.clientIsNew(login))
         if(dbase.clientIsNew(login)):
+            print('login is ' + login)
             if(dbase.getToday()['flag'] == '+'):
                 date = dbase.getToday()['result'] + 1000000
             else:
@@ -149,8 +154,8 @@ conf = {
     }
 }
 
-cherrypy.config.update({'server.socket_host': '31.31.201.218',
-                        'server.socket_port': 8050,
+cherrypy.config.update({'server.socket_host': '127.0.0.1',
+                        'server.socket_port': 443,
                         'tools.sessions.on': True,
                         'engine.autoreload.on': False,
                         'log.access_file': './access.log',
