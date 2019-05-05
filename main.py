@@ -11,6 +11,20 @@ botactive = False
 
 # print(requests.post(url=url).text)
 
+def reloadSubscribe(login):
+    if(dbase.getBalance(login) >= 18490):
+        dbase.updateRate(login, '1 год.')
+        dbase.updateBalance(login, -18490)
+        return True
+    if(dbase.getBalance(login) >= 4990):
+        dbase.updateRate(login, '2 месяца.')
+        dbase.updateBalance(login, -4990)
+        return True
+    if(dbase.getBalance(login) >= 2490):
+        dbase.updateRate(login, '1 месяц.')
+        dbase.updateBalance(login, -2490)
+        return True
+    return False
 def getCount(balance):
     result = 0
     while (True):
@@ -46,10 +60,12 @@ class GetForm(object):
         print(login)
         date = dbase.getDate(login=login)
         if(dbase.getLimit(login) == -1):
-            date = date + ', Бот отключён. Чтобы восстановить работу бота - пополните баланс'
+            check = reloadSubscribe(login)
+            if not check:
+                date = date + ', Бот отключён. Чтобы восстановить работу бота - пополните баланс'
         balance = dbase.getBalance(login=login)
         result = {'date': date, 'balance': balance,
-                  'count': getCount(balance)}
+                  'count': getCount(balance), 'crm': dbase.getFields(login)['crm'], 'lkcrm': dbase.getFields(login)['lkcrm'], 'apikey': dbase.getFields(login)['apikey']}
 
         print(json.dumps(result, sort_keys=True))
         return json.dumps(result, sort_keys=True)
@@ -133,8 +149,8 @@ conf = {
     }
 }
 
-cherrypy.config.update({'server.socket_host': '127.0.0.1',
-                        'server.socket_port': 443,
+cherrypy.config.update({'server.socket_host': '31.31.201.218',
+                        'server.socket_port': 8050,
                         'tools.sessions.on': True,
                         'engine.autoreload.on': False,
                         'log.access_file': './access.log',

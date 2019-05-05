@@ -65,6 +65,11 @@ def getClientsUsername():
 
     return result[0][0]
 
+def getFields(login):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    cursor.execute("""SELECT FROM client WHERE login = ?""", (login,))
+
 def deleteClient(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
@@ -124,6 +129,13 @@ def updateClient(login, crm, lkcrm, apikey, botname):
     cursor.execute("""UPDATE client SET botname = ?, crm = ?, lkcrm = ?, apikey = ? WHERE login = ?""", (botname, crm, lkcrm, apikey, login))
     conn.commit()
 
+def updateRate(login, rate):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    cursor.execute("""UPDATE client SET rate = ? WHERE login = ?""",
+                   (rate, login))
+    conn.commit()
+
 def updateBalance(login, new):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
@@ -136,9 +148,9 @@ def updateBalance(login, new):
 def getBalance(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    row = cursor.execute("""SELECT balance FROM client WHERE login = ?""", (login,))
+    row = cursor.execute("""SELECT crm, lkcrm, apikey balance FROM client WHERE login = ?""", (login,))
 
-    return row.fetchall()[0][0]
+    return row.fetchall()[0]
 
 def createTables():
     conn = sqlite3.connect("vk.db")
