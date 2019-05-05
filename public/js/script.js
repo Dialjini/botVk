@@ -109,7 +109,7 @@ function saveSettings() {
   var eMail = id('email').value;
   var lkcrm = id('linkCRM').value;
   var apikey = id('api-key').value;
-
+  var count = id('count').innerHTML;
   console.log(crm);
 
   if (eMail != "") {
@@ -129,7 +129,10 @@ function saveSettings() {
       }
     })
     .done(function() {
-      console.log('settings saved');
+        if(!id('count').innerHTML){
+            location.reload();
+        }
+       alert('settings saved');
     });
 }
 
