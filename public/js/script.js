@@ -53,7 +53,7 @@ function main() {
 
 function checkBot(checkbox) {
   if (id('count').innerHTML) {
-    if(id('date').innerHTML < 54) {
+    if(id('date').innerHTML.length < 54) {
     if (checkbox.checked) {
       $.ajax({
           type: "GET",
