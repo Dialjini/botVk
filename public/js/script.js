@@ -93,15 +93,15 @@ function checkBot(checkbox) {
 function settings() {
   $('.nav-item:first-child').addClass('active');
   $('.nav-item:last-child').removeClass('active');
-  $('.settings').css('display', 'block');
   $('.card').css('display', 'none');
+  $('.settings').css('display', 'block');
 }
 
 function card() {
   $('.nav-item:last-child').addClass('active');
   $('.nav-item:first-child').removeClass('active');
-  $('.settings').css('display', 'none');
   $('.card').css('display', 'block');
+  $('.settings').css('display', 'none');
 }
 
 function saveSettings() {
