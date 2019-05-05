@@ -53,7 +53,7 @@ function main() {
 
 function checkBot(checkbox) {
   if (id('count').innerHTML) {
-    if(id('date').innerHTML < 30) {
+    if(id('date').innerHTML < 54) {
     if (checkbox.checked) {
       $.ajax({
           type: "GET",
@@ -132,7 +132,7 @@ function saveSettings() {
         if(!id('count').innerHTML){
             location.reload();
         }
-       alert('settings saved');
+       alert("Настройки сохранены");
     });
 }
 
