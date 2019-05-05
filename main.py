@@ -94,9 +94,9 @@ class GenerateHtml(object):
 class getWidget(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self):
-        widget ='<!— VK Widget —><div id="vk_community_messages"></div><script type="text/javascript">' \
+        widget ='<!— VK Widget —>\n<div id="vk_community_messages"></div>\n<script type="text/javascript">\n' \
                 'VK.Widgets.CommunityMessages("vk_community_messages", '
-        widget_r = ' , {expanded: "1",tooltipButtonText: "Есть вопрос?"});</script>'
+        widget_r = ' , {expanded: "1",tooltipButtonText: "Есть вопрос?"});\n</script>'
         result = widget + user.login + widget_r
         return result
 
