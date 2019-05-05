@@ -79,7 +79,7 @@ class GenerateHtml(object):
     def GET(self, **data):
         if (data != {'login': 'test', 'botname': 'test'}):
             print(data)
-            user.login = data['user_id']
+            user.login = data['group_id']
             user.botname = data['api_id']
             return open(file='index.html', encoding='utf8')
 
@@ -95,7 +95,7 @@ class getWidget(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self):
         widget ='<!— VK Widget —><div id="vk_community_messages"></div><script type="text/javascript">' \
-                'VK.Widgets.CommunityMessages("vk_community_messages",'
+                'VK.Widgets.CommunityMessages("vk_community_messages", '
         widget_r = ' , {expanded: "1",tooltipButtonText: "Есть вопрос?"});</script>'
         result = widget + user.login + widget_r
         return result

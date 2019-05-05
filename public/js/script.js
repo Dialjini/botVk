@@ -15,7 +15,7 @@ function getWidget() {
       url: "/getWidget",
     })
     .done(function(result) {
-      alert(result);
+      alert("Скопируйте ваш код виджета:\n" + result);
     });
 
 }
@@ -140,10 +140,11 @@ function selectMode(selectObject) {
   crm = selectObject.value;
   if (crm === 'email') {
     $('.email').fadeIn(1000);
-    $('.linkCRM').fadeOut(100);
+    $('.linkCRM').fadeOut(0);
   } else {
-    $('.email').fadeOut(100);
-    $('.linkCRM').fadeIn(1000);
+  $('.linkCRM').fadeIn(1000);
+    $('.email').fadeOut(0);
+
   }
 }
 
