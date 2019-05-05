@@ -41,7 +41,7 @@ function main() {
       time = result['count'];
       id('crm').value = crm;
       id('linkcrm').innerHTML = lkcrm;
-      if('api-key').innerHTML = apikey;
+      id('api-key').innerHTML = apikey;
       id('date').innerHTML = date0;
       id('count').innerHTML = count.toFixed(2) + " &#8381;";
       id('countTo').innerHTML = count.toFixed(2) + " &#8381;";
