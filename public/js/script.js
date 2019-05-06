@@ -1,5 +1,5 @@
 var count = 100;
-var tariff = 'Бизнес';
+var tariff = '1 месяц';
 var time = 12;
 var date0 = '?? апреля ????г. в ??:??';
 var login = 'test';
@@ -33,6 +33,7 @@ function main() {
       console.log(result);
       console.log(JSON.parse(result));
       result = JSON.parse(result);
+      tariff = result['rate'];
       crm = result['crm'];
       lkcrm = result['lkcrm'];
       apikey = result['apikey'];

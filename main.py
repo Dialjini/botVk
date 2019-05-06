@@ -17,7 +17,7 @@ def reloadSubscribe(login):
         dbase.updateBalance(login, -18490)
         return True
     if(dbase.getBalance(login) >= 4990):
-        dbase.updateRate(login, '2 месяца.')
+        dbase.updateRate(login, '3 месяца.')
         dbase.updateBalance(login, -4990)
         return True
     if(dbase.getBalance(login) >= 2490):
@@ -68,7 +68,8 @@ class GetForm(object):
                 date = date + ', Бот отключён. Чтобы восстановить работу бота - пополните баланс'
         balance = dbase.getBalance(login=login)
         result = {'date': date, 'balance': balance,
-                  'count': getCount(balance), 'crm': dbase.getFields(login)[0], 'lkcrm': dbase.getFields(login)[1], 'apikey': dbase.getFields(login)[2]}
+                  'count': getCount(balance), 'crm': dbase.getFields(login)[0], 'lkcrm': dbase.getFields(login)[1],
+                  'apikey': dbase.getFields(login)[2], 'rate': dbase.getRate(login)}
 
         print(json.dumps(result, sort_keys=True))
         return json.dumps(result, sort_keys=True)
@@ -89,7 +90,7 @@ class UpdateClient(object):
             else:
                 date = dbase.getToday()['result'] - 12000000
             dbase.addClient(botname=botname, login=login, crm=data['crm'], date=date, apikey=data['apikey'],
-                            email='0', lkcrm=data['lkcrm'], password='', rate='business')
+                            email='0', lkcrm=data['lkcrm'], password='', rate='1 месяц')
         else:
             dbase.updateClient(botname=botname, login=login, crm=data['crm'], lkcrm=data['lkcrm'], apikey=data['apikey'])
 
@@ -154,8 +155,8 @@ conf = {
     }
 }
 
-cherrypy.config.update({'server.socket_host': '127.0.0.1',
-                        'server.socket_port': 443,
+cherrypy.config.update({'server.socket_host': '31.31.201.218',
+                        'server.socket_port': 8050,
                         'tools.sessions.on': True,
                         'engine.autoreload.on': False,
                         'log.access_file': './access.log',

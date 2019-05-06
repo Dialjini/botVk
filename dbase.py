@@ -153,6 +153,13 @@ def getFields(login):
 
     return row.fetchall()[0]
 
+def getRate(login):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    row = cursor.execute("""SELECT rate FROM client WHERE login = ?""", (login,))
+
+    return row.fetchall()[0][0]
+
 def createTables():
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
