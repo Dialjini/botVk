@@ -1,5 +1,5 @@
 var count = 100;
-var tariff = 'Бизнес';
+var tariff = '1 месяц';
 var time = 12;
 var date0 = '?? апреля ????г. в ??:??';
 var login = 'test';
@@ -15,7 +15,7 @@ function getWidget() {
       url: "/getWidget",
     })
     .done(function(result) {
-      alert(result);
+      alert("Скопируйте ваш код виджета:\n" + result);
     });
 
 }
@@ -33,14 +33,29 @@ function main() {
       console.log(result);
       console.log(JSON.parse(result));
       result = JSON.parse(result);
+      tariff = result['rate'];
+      crm = result['crm'];
+      lkcrm = result['lkcrm'];
+      apikey = result['apikey'];
       date0 = result['date'];
       count = parseInt(result['balance']);
       time = result['count'];
+      id('crm').value = crm;
+      if (crm === 'email') {
+        id('email').value = lkcrm;
+      } else {
+        id('linkCRM').value = lkcrm;
+      }
+      id('api-key').value = apikey;
       id('date').innerHTML = date0;
       id('count').innerHTML = count.toFixed(2) + " &#8381;";
       id('countTo').innerHTML = count.toFixed(2) + " &#8381;";
       id('tariff').innerHTML = tariff;
       id('time').innerHTML = time;
+      if (id('crm').value === 'email') {
+        $('.email').fadeIn(1000);
+        $('.linkCRM').fadeOut(0);
+      }
 
     });
 
@@ -53,37 +68,36 @@ function main() {
 
 function checkBot(checkbox) {
   if (id('count').innerHTML) {
-    if(id('date').innerHTML < 30) {
-    if (checkbox.checked) {
-      $.ajax({
-          type: "GET",
-          url: "/botStatus",
-          data: {
-            'botname': botname,
-            'login': login,
-            'mode': 'on'
-          }
-        })
-        .done(function() {
-          alert("Бот включен");
-        });
+    if (id('date').innerHTML.length < 54) {
+      if (checkbox.checked) {
+        $.ajax({
+            type: "GET",
+            url: "/botStatus",
+            data: {
+              'botname': botname,
+              'login': login,
+              'mode': 'on'
+            }
+          })
+          .done(function() {
+            alert("Бот включен");
+          });
+      } else {
+        $.ajax({
+            type: "GET",
+            url: "/botStatus",
+            data: {
+              'botname': botname,
+              'login': login,
+              'mode': 'off'
+            }
+          })
+          .done(function() {
+            alert("Бот выключен");
+          });
+      }
     } else {
-      $.ajax({
-          type: "GET",
-          url: "/botStatus",
-          data: {
-            'botname': botname,
-            'login': login,
-            'mode': 'off'
-          }
-        })
-        .done(function() {
-          alert("Бот выключен");
-        });
-    }
-    }
-    else {
-     alert("Бот отключён. Пополните баланс.");
+      alert("Бот отключён. Пополните баланс.");
     }
   } else {
     alert('Сначала введите свои данные, после чего нажмите кнопку "Сохранить"');
@@ -111,11 +125,13 @@ function saveSettings() {
   var eMail = id('email').value;
   var lkcrm = id('linkCRM').value;
   var apikey = id('api-key').value;
+  var count = id('count').innerHTML;
 
   console.log(crm);
 
-  if (eMail != "") {
-    crm = eMail;
+  if (id("crm").value == "email") {
+    lkcrm = eMail;
+    crm = 'email';
   }
 
 
@@ -131,7 +147,10 @@ function saveSettings() {
       }
     })
     .done(function() {
-      console.log('settings saved');
+      if (!id('count').innerHTML) {
+        location.reload();
+      }
+      alert("Настройки сохранены");
     });
 }
 
@@ -139,10 +158,10 @@ function selectMode(selectObject) {
   crm = selectObject.value;
   if (crm === 'email') {
     $('.email').fadeIn(1000);
-    $('.linkCRM').fadeOut(100);
+    $('.linkCRM').fadeOut(0);
   } else {
-    $('.email').fadeOut(100);
-    $('.linkCRM').fadeIn(1000);
+    $('.email').fadeOut(1000);
+    $('.linkCRM').fadeIn(0);
   }
 }
 
