@@ -7,9 +7,12 @@ from threading import Thread
 from cherrypy.lib import static
 
 url = '31.31.201.218:8050'
-botactive = 'off'
 
+# -------------------------------------------------<Threading>----------------------------------------------------------
+
+botactive = 'off'
 active_clients = []
+
 def botWork(login):
     return 'OK'
 
@@ -29,8 +32,7 @@ def upBot(login, status):
 for i in dbase.getActiveUsers():
     active_clients.append({'login': i[0], 'thread': Thread(target=botWork, args=(i[0], ))})
 
-
-# print(requests.post(url=url).text)
+# --------------------------------------------------<Functions>---------------------------------------------------------
 
 def reloadSubscribe(login):
     if(dbase.getBalance(login) >= 18490):
@@ -67,6 +69,7 @@ def getCount(balance):
         break
     return result
 
+# -------------------------------------------------<Server>-------------------------------------------------------------
 
 class user():
     login = ''
