@@ -33,7 +33,7 @@ html, body {
   cursor: pointer;
 }
 
-.active {
+.nav-item.active {
   -webkit-transition: 0.8s all;
   -o-transition: 0.8s all;
   transition: 0.8s all;
@@ -94,6 +94,7 @@ html, body {
   border: 2px solid #75A3FF;
   border-radius: 8px;
   margin-right: 30px;
+  height: auto;
 }
 
 .content .settings {
@@ -105,7 +106,7 @@ html, body {
 }
 
 .content .settings .turn-on-bot {
-  font-weight: 400;
+  font-weight: bolder;
   margin-bottom: 15px;
 }
 
@@ -116,6 +117,10 @@ html, body {
 
 .content .settings .crm .container {
   margin: 15px 0;
+}
+
+.content .rate span, .content .balance span {
+  font-weight: bolder;
 }
 
 .content .settings .api {
@@ -208,7 +213,7 @@ html, body {
   border-radius: 5px;
   background-color: #5C92D1;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: bolder;
   color: white;
   width: 200px;
   height: 35px;
@@ -266,7 +271,7 @@ html, body {
   position: relative;
   height: 500px;
   width: 94%;
-  margin: 80px 3% 0 3%;
+  margin: 40px 3% 0 3%;
 }
 
 .content .card .balance {
@@ -392,4 +397,35 @@ html, body {
   width: 280px;
   margin-top: 20px;
   padding: 0px 27px;
+}
+
+.content .card .img {
+  width: 100%;
+}
+
+.content .card .img img {
+  width: 33%;
+}
+
+.content .card .img img[id="second"] {
+  position: relative;
+  top: -7px;
+  left: 4px;
+}
+
+.nav-bar .hr {
+  position: relative;
+  top: -20px;
+}
+
+.pay-bar {
+  width: 80px;
+  height: 20px;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.pay-bar.active {
+  border-bottom: 2px solid #75A3FF;
 }

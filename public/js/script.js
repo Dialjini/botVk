@@ -41,23 +41,21 @@ function main() {
       count = parseInt(result['balance']);
       time = result['count'];
       id('crm').value = crm;
-      if(crm === 'email') {
+      if (crm === 'email') {
         id('email').value = lkcrm;
+      } else {
+        id('linkCRM').value = lkcrm;
       }
-      else {
-       id('linkCRM').value = lkcrm;
-       }
-
       id('api-key').value = apikey;
       id('date').innerHTML = date0;
       id('count').innerHTML = count.toFixed(2) + " &#8381;";
       id('countTo').innerHTML = count.toFixed(2) + " &#8381;";
       id('tariff').innerHTML = tariff;
       id('time').innerHTML = time;
-       if (id('crm').value === 'email') {
+      if (id('crm').value === 'email') {
         $('.email').fadeIn(1000);
         $('.linkCRM').fadeOut(0);
-        }
+      }
 
     });
 
@@ -70,37 +68,36 @@ function main() {
 
 function checkBot(checkbox) {
   if (id('count').innerHTML) {
-    if(id('date').innerHTML.length < 54) {
-    if (checkbox.checked) {
-      $.ajax({
-          type: "GET",
-          url: "/botStatus",
-          data: {
-            'botname': botname,
-            'login': login,
-            'mode': 'on'
-          }
-        })
-        .done(function() {
-          alert("Бот включен");
-        });
+    if (id('date').innerHTML.length < 54) {
+      if (checkbox.checked) {
+        $.ajax({
+            type: "GET",
+            url: "/botStatus",
+            data: {
+              'botname': botname,
+              'login': login,
+              'mode': 'on'
+            }
+          })
+          .done(function() {
+            alert("Бот включен");
+          });
+      } else {
+        $.ajax({
+            type: "GET",
+            url: "/botStatus",
+            data: {
+              'botname': botname,
+              'login': login,
+              'mode': 'off'
+            }
+          })
+          .done(function() {
+            alert("Бот выключен");
+          });
+      }
     } else {
-      $.ajax({
-          type: "GET",
-          url: "/botStatus",
-          data: {
-            'botname': botname,
-            'login': login,
-            'mode': 'off'
-          }
-        })
-        .done(function() {
-          alert("Бот выключен");
-        });
-    }
-    }
-    else {
-     alert("Бот отключён. Пополните баланс.");
+      alert("Бот отключён. Пополните баланс.");
     }
   } else {
     alert('Сначала введите свои данные, после чего нажмите кнопку "Сохранить"');
@@ -108,17 +105,19 @@ function checkBot(checkbox) {
 }
 
 function settings() {
+  $('.content').css('height', '');
   $('.nav-item:first-child').addClass('active');
   $('.nav-item:last-child').removeClass('active');
-  $('.card').css('display', 'none');
   $('.settings').css('display', 'block');
+  $('.card').css('display', 'none');
 }
 
 function card() {
+  $('.content').css('height', '910px');
   $('.nav-item:last-child').addClass('active');
   $('.nav-item:first-child').removeClass('active');
-  $('.card').css('display', 'block');
   $('.settings').css('display', 'none');
+  $('.card').css('display', 'block');
 }
 
 function saveSettings() {
@@ -127,6 +126,7 @@ function saveSettings() {
   var lkcrm = id('linkCRM').value;
   var apikey = id('api-key').value;
   var count = id('count').innerHTML;
+
   console.log(crm);
 
   if (id("crm").value == "email") {
@@ -147,10 +147,10 @@ function saveSettings() {
       }
     })
     .done(function() {
-        if(!id('count').innerHTML){
-            location.reload();
-        }
-       alert("Настройки сохранены");
+      if (!id('count').innerHTML) {
+        location.reload();
+      }
+      alert("Настройки сохранены");
     });
 }
 
@@ -160,9 +160,8 @@ function selectMode(selectObject) {
     $('.email').fadeIn(1000);
     $('.linkCRM').fadeOut(0);
   } else {
-  $('.linkCRM').fadeIn(1000);
-    $('.email').fadeOut(0);
-
+    $('.email').fadeOut(1000);
+    $('.linkCRM').fadeIn(0);
   }
 }
 
