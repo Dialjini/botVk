@@ -3,10 +3,31 @@ import os, os
 import json
 import dbase
 import price
+from threading import Thread
 from cherrypy.lib import static
 
 url = '31.31.201.218:8050'
-botactive = False
+botactive = 'off'
+
+active_clients = []
+def botWork(login):
+    return 'OK'
+
+def closeThread(login):
+    for i in active_clients:
+        if login == i['login']:
+            active_clients.remove(i)
+            break
+
+def upBot(login, status):
+    if status == 'on':
+        active_clients.append({'login': login, 'thread': Thread(target=botWork, args=(login, ))})
+
+    if status == 'off':
+        closeThread(login)
+
+for i in dbase.getActiveUsers():
+    active_clients.append({'login': i[0], 'thread': Thread(target=botWork, args=(i[0], ))})
 
 
 # print(requests.post(url=url).text)
@@ -133,6 +154,8 @@ class upMoney(object):
 class BotStatus(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
+        dbase.upBot(data['login'], data['mode'])
+        upBot(data['login'], data['mode'])
         return 'OK'
 
 

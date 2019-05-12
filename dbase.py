@@ -36,7 +36,7 @@ def getToday():
 def addClient(botname, login, password, apikey, crm, email, lkcrm, rate, date):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    cursor.execute("""INSERT INTO client VALUES (?,?,?,?,?,?,0,?,?,?)""", (botname, login, password, rate, apikey, crm, email, lkcrm, date))
+    cursor.execute("""INSERT INTO client VALUES (?,?,?,?,?,?,0,?,?,?,0)""", (botname, login, password, rate, apikey, crm, email, lkcrm, date))
     print('client added')
     conn.commit()
 
@@ -165,10 +165,26 @@ def createTables():
     cursor = conn.cursor()
 
     cursor.execute("""CREATE TABLE client
-                  (botname text, login text, password text, rate text, apikey text, crm text, balance text, email text, lkcrm text, date text)
+                  (botname text, login text, password text, rate text, apikey text, crm text, balance text, email text, lkcrm text, date text, botactive text)
                    """)
     print('client table is ready')
 
+def getActiveUsers():
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    row = cursor.execute("""SELECT login FROM client WHERE botactive = on""")
 
+    result = []
+
+    for i in row:
+        result.append(i)
+
+    return result
+
+def upBot(login, botstatus):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    cursor.execute("""UPDATE client SET botactive = ? WHERE login = ?""", (botstatus, login))
+    conn.commit()
 
 # addClient(botname='6929595', login='294940138', password='vafel228' ,apikey='462718ufgd', crm='UonTravel', date='201904292001', lkcrm='hz', email='kustovdanil2@gmail.com', rate='business')
