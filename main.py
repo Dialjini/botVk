@@ -13,8 +13,10 @@ url = '31.31.201.218:8050'
 botactive = 'off'
 active_clients = []
 
+
 def botWork(login):
     return 'OK'
+
 
 def closeThread(login):
     for i in active_clients:
@@ -22,28 +24,31 @@ def closeThread(login):
             active_clients.remove(i)
             break
 
+
 def upBot(login, status):
     if status == 'on':
-        active_clients.append({'login': login, 'thread': Thread(target=botWork, args=(login, ))})
+        active_clients.append({'login': login, 'thread': Thread(target=botWork, args=(login,))})
 
     if status == 'off':
         closeThread(login)
 
+
 for i in dbase.getActiveUsers():
-    active_clients.append({'login': i[0], 'thread': Thread(target=botWork, args=(i[0], ))})
+    active_clients.append({'login': i[0], 'thread': Thread(target=botWork, args=(i[0],))})
+
 
 # --------------------------------------------------<Functions>---------------------------------------------------------
 
 def reloadSubscribe(login):
-    if(dbase.getBalance(login) >= 18490):
+    if (dbase.getBalance(login) >= 18490):
         dbase.updateRate(login, '1 год.')
         dbase.updateBalance(login, -18490)
         return True
-    if(dbase.getBalance(login) >= 4990):
+    if (dbase.getBalance(login) >= 4990):
         dbase.updateRate(login, '3 месяца.')
         dbase.updateBalance(login, -4990)
         return True
-    if(dbase.getBalance(login) >= 2490):
+    if (dbase.getBalance(login) >= 2490):
         dbase.updateRate(login, '1 месяц.')
         dbase.updateBalance(login, -2490)
         return True
@@ -69,6 +74,7 @@ def getCount(balance):
         break
     return result
 
+
 # -------------------------------------------------<Server>-------------------------------------------------------------
 
 class user():
@@ -86,14 +92,14 @@ class GetForm(object):
         print(botname)
         print(login)
         date = dbase.getDate(login=login)
-        if(dbase.getLimit(login) == -1):
+        if (dbase.getLimit(login) == -1):
             check = reloadSubscribe(login)
             if not check:
                 date = date + ', Бот отключён. Чтобы восстановить работу бота - пополните баланс'
         balance = dbase.getBalance(login=login)
         result = {'date': date, 'balance': balance,
                   'count': getCount(balance), 'crm': dbase.getFields(login)[0], 'lkcrm': dbase.getFields(login)[1],
-                  'apikey': dbase.getFields(login)[2], 'rate': dbase.getRate(login)}
+                  'apikey': dbase.getFields(login)[2], 'rate': dbase.getRate(login), 'isnew': dbase.clientIsNew(login)}
 
         print(json.dumps(result, sort_keys=True))
         return json.dumps(result, sort_keys=True)
@@ -107,16 +113,17 @@ class UpdateClient(object):
         botname = user.botname
         login = user.login
         print(dbase.clientIsNew(login))
-        if(dbase.clientIsNew(login)):
+        if (dbase.clientIsNew(login)):
             print('login is ' + login)
-            if(dbase.getToday()['flag'] == '+'):
+            if (dbase.getToday()['flag'] == '+'):
                 date = dbase.getToday()['result'] + 1000000
             else:
                 date = dbase.getToday()['result'] - 12000000
             dbase.addClient(botname=botname, login=login, crm=data['crm'], date=date, apikey=data['apikey'],
                             email='0', lkcrm=data['lkcrm'], password='', rate='1 месяц')
         else:
-            dbase.updateClient(botname=botname, login=login, crm=data['crm'], lkcrm=data['lkcrm'], apikey=data['apikey'])
+            dbase.updateClient(botname=botname, login=login, crm=data['crm'], lkcrm=data['lkcrm'],
+                               apikey=data['apikey'])
 
 
 @cherrypy.expose
@@ -140,11 +147,12 @@ class GenerateHtml(object):
 class getWidget(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self):
-        widget ='<!— VK Widget —>\n<div id="vk_community_messages"></div>\n<script type="text/javascript">\n' \
-                'VK.Widgets.CommunityMessages("vk_community_messages", '
+        widget = '<!— VK Widget —>\n<div id="vk_community_messages"></div>\n<script type="text/javascript">\n' \
+                 'VK.Widgets.CommunityMessages("vk_community_messages", '
         widget_r = ' , {expanded: "1",tooltipButtonText: "Есть вопрос?"});\n</script>'
         result = widget + user.login + widget_r
         return result
+
 
 @cherrypy.expose
 class upMoney(object):
@@ -153,13 +161,13 @@ class upMoney(object):
         dbase.updateBalance(login=user.login, new=data['money'])
         return 'OK'
 
+
 @cherrypy.expose
-class BotStatus(object):
+class AddPass(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
-        dbase.upBot(data['login'], data['mode'])
-        upBot(data['login'], data['mode'])
-        return 'OK'
+        token = data['access_token']
+        dbase.addPass(password=token, login=user.login)
 
 
 conf = {
@@ -198,8 +206,7 @@ cherrypy.tree.mount(BotStatus(), '/botStatus', conf)
 cherrypy.tree.mount(UpdateClient(), '/updateClient', conf)
 cherrypy.tree.mount(UpdateClient(), '/upMoney', conf)
 cherrypy.tree.mount(getWidget(), '/getWidget', conf)
+cherrypy.tree.mount(AddPass(), '/addPass', conf)
 
 cherrypy.engine.start()
 cherrypy.engine.block()
-
-

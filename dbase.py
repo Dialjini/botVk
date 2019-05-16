@@ -1,6 +1,7 @@
 import sqlite3
 import datetime
 
+
 def clientIsNew(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
@@ -8,7 +9,7 @@ def clientIsNew(login):
     row = row.fetchall()
     print(row)
     for i in row:
-        if(i[1] == login):
+        if (i[1] == login):
             return False
     return True
 
@@ -33,12 +34,15 @@ def getToday():
 
     return {'result': int(result), 'flag': res}
 
+
 def addClient(botname, login, password, apikey, crm, email, lkcrm, rate, date):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    cursor.execute("""INSERT INTO client VALUES (?,?,?,?,?,?,0,?,?,?,0)""", (botname, login, password, rate, apikey, crm, email, lkcrm, date))
+    cursor.execute("""INSERT INTO client VALUES (?,?,?,?,?,?,0,?,?,?,0)""",
+                   (botname, login, password, rate, apikey, crm, email, lkcrm, date))
     print('client added')
     conn.commit()
+
 
 def getClients():
     conn = sqlite3.connect("vk.db")
@@ -53,6 +57,7 @@ def getClients():
 
     return result[0]
 
+
 def getClientsUsername():
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
@@ -65,16 +70,19 @@ def getClientsUsername():
 
     return result
 
+
 def getBalance(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
     row = cursor.execute("""SELECT balance FROM client WHERE login = ?""", (login,))
     return row.fetchall()[0][0]
 
+
 def deleteClient(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
     cursor.execute("""DELETE FROM client WHERE login = ?""", (login,))
+
 
 def getLimit(login):
     conn = sqlite3.connect("vk.db")
@@ -87,15 +95,23 @@ def getLimit(login):
     for i in realDate:
         if ((i != '-') & (i != ' ') & (i != ':')):
             result = result + i
-        if ((i == ':') & (flag == 1)):                          # 2019-04-29 20:01 = 201904292001 in db
-            break                                               # datetime.datetime.today() = 2019-04-29 20:02:14.760226
-        if ((i == ':') & (flag == 0)):                          # 23 апреля 2019г. в 09:03
+        if ((i == ':') & (flag == 1)):  # 2019-04-29 20:01 = 201904292001 in db
+            break  # datetime.datetime.today() = 2019-04-29 20:02:14.760226
+        if ((i == ':') & (flag == 0)):  # 23 апреля 2019г. в 09:03
             flag = 1
     realDate = int(result)
-    if(row - realDate < 0):
+    if (row - realDate < 0):
         return -1
     else:
-        return row-realDate
+        return row - realDate
+
+
+def addPass(password, login):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    cursor.execute("""UPDATE client SET password = ? WHERE login = ?""", (password, login))
+    conn.commit()
+
 
 def getDate(login):
     conn = sqlite3.connect("vk.db")
@@ -124,11 +140,14 @@ def getDate(login):
         result = result + row[i]
     return result
 
+
 def updateClient(login, crm, lkcrm, apikey, botname):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    cursor.execute("""UPDATE client SET botname = ?, crm = ?, lkcrm = ?, apikey = ? WHERE login = ?""", (botname, crm, lkcrm, apikey, login))
+    cursor.execute("""UPDATE client SET botname = ?, crm = ?, lkcrm = ?, apikey = ? WHERE login = ?""",
+                   (botname, crm, lkcrm, apikey, login))
     conn.commit()
+
 
 def updateRate(login, rate):
     conn = sqlite3.connect("vk.db")
@@ -136,6 +155,7 @@ def updateRate(login, rate):
     cursor.execute("""UPDATE client SET rate = ? WHERE login = ?""",
                    (rate, login))
     conn.commit()
+
 
 def updateBalance(login, new):
     conn = sqlite3.connect("vk.db")
@@ -146,12 +166,14 @@ def updateBalance(login, new):
     cursor.execute("""UPDATE client SET balance = ? WHERE login = ?""", (row, login))
     conn.commit()
 
+
 def getFields(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
     row = cursor.execute("""SELECT crm, lkcrm, apikey balance FROM client WHERE login = ?""", (login,))
 
     return row.fetchall()[0]
+
 
 def getRate(login):
     conn = sqlite3.connect("vk.db")
@@ -160,14 +182,18 @@ def getRate(login):
 
     return row.fetchall()[0][0]
 
+
 def createTables():
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
 
-    cursor.execute("""CREATE TABLE client
+    cursor.execute("""CREATE TABLE IF NOT EXISTS client
                   (botname text, login text, password text, rate text, apikey text, crm text, balance text, email text, lkcrm text, date text, botactive text)
                    """)
+    conn.commit()
+
     print('client table is ready')
+
 
 def getActiveUsers():
     conn = sqlite3.connect("vk.db")
@@ -181,10 +207,13 @@ def getActiveUsers():
 
     return result
 
+
 def upBot(login, botstatus):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
     cursor.execute("""UPDATE client SET botactive = ? WHERE login = ?""", (botstatus, login))
     conn.commit()
 
+
+createTable()
 # addClient(botname='6929595', login='294940138', password='vafel228' ,apikey='462718ufgd', crm='UonTravel', date='201904292001', lkcrm='hz', email='kustovdanil2@gmail.com', rate='business')

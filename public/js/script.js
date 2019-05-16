@@ -56,6 +56,16 @@ function main() {
         $('.email').fadeIn(1000);
         $('.linkCRM').fadeOut(0);
       }
+      if (result['isnew'] === true) {
+      $.ajax({
+      type: "GET",
+      url: "/addPass",
+      data: VK.callMethod("showSettingsBox", 8214+262144);
+    })
+    .done(function(result) {
+       console.log("OK")
+    });
+      }
 
     });
 
@@ -129,7 +139,7 @@ function saveSettings() {
 
   console.log(crm);
 
-  if (id("crm").value == "email") {
+  if (id("crm").value === "email") {
     lkcrm = eMail;
     crm = 'email';
   }
