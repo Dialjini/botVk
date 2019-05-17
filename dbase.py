@@ -198,7 +198,7 @@ def createTables():
 def getActiveUsers():
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
-    row = cursor.execute("""SELECT login FROM client WHERE botactive = on""")
+    row = cursor.execute("""SELECT login FROM client WHERE botactive = ?""", ('on',))
 
     result = []
 
@@ -215,5 +215,5 @@ def upBot(login, botstatus):
     conn.commit()
 
 
-createTable()
+createTables()
 # addClient(botname='6929595', login='294940138', password='vafel228' ,apikey='462718ufgd', crm='UonTravel', date='201904292001', lkcrm='hz', email='kustovdanil2@gmail.com', rate='business')

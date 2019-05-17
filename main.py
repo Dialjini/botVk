@@ -169,6 +169,14 @@ class AddPass(object):
         token = data['access_token']
         dbase.addPass(password=token, login=user.login)
 
+@cherrypy.expose
+class BotStatus(object):
+    @cherrypy.tools.accept(media='text/plain')
+    def GET(self, **data):
+        dbase.upBot(data['login'], data['mode'])
+        upBot(data['login'], data['mode'])
+        return 'OK'
+
 
 conf = {
     '/': {
