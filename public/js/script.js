@@ -33,11 +33,21 @@ function main() {
       console.log(result);
       console.log(JSON.parse(result));
       result = JSON.parse(result);
+      date0 = result['date'];
+      if (result['isnew'] === true) {
+      $.ajax({
+      type: "GET",
+      url: "/addPass",
+      data: VK.callMethod("showSettingsBox", 8214+262144)
+    })
+    .done(function(result) {
+       console.log("OK")
+    });}
       tariff = result['rate'];
       crm = result['crm'];
       lkcrm = result['lkcrm'];
       apikey = result['apikey'];
-      date0 = result['date'];
+
       count = parseInt(result['balance']);
       time = result['count'];
       id('crm').value = crm;
@@ -56,17 +66,6 @@ function main() {
         $('.email').fadeIn(1000);
         $('.linkCRM').fadeOut(0);
       }
-      if (result['isnew'] === true) {
-      $.ajax({
-      type: "GET",
-      url: "/addPass",
-      data: VK.callMethod("showSettingsBox", 8214+262144)
-    })
-    .done(function(result) {
-       console.log("OK")
-    });
-      }
-
     });
 
   //document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";

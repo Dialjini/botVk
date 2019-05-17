@@ -87,22 +87,28 @@ class GetForm(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
         print(data)
-        login = user.login
-        botname = user.botname
-        print(botname)
-        print(login)
-        date = dbase.getDate(login=login)
-        if (dbase.getLimit(login) == -1):
-            check = reloadSubscribe(login)
-            if not check:
-                date = date + ', Бот отключён. Чтобы восстановить работу бота - пополните баланс'
-        balance = dbase.getBalance(login=login)
-        result = {'date': date, 'balance': balance,
-                  'count': getCount(balance), 'crm': dbase.getFields(login)[0], 'lkcrm': dbase.getFields(login)[1],
-                  'apikey': dbase.getFields(login)[2], 'rate': dbase.getRate(login), 'isnew': dbase.clientIsNew(login)}
+        if data == {'login': 'test', 'botname': 'test'}:
+            date = '... Пока он еще не начался...'
+            result = {'date': date, 'isnew': True}
+            print(json.dumps(result, sort_keys=True))
+            return json.dumps(result, sort_keys=True)
+        else:
+            login = user.login
+            botname = user.botname
+            print(botname)
+            print(login)
+            date = dbase.getDate(login=login)
+            if (dbase.getLimit(login) == -1):
+                check = reloadSubscribe(login)
+                if not check:
+                    date = date + ', Бот отключён. Чтобы восстановить работу бота - пополните баланс'
+            balance = dbase.getBalance(login=login)
+            result = {'date': date, 'balance': balance,
+                    'count': getCount(balance), 'crm': dbase.getFields(login)[0], 'lkcrm': dbase.getFields(login)[1],
+                    'apikey': dbase.getFields(login)[2], 'rate': dbase.getRate(login), 'isnew': dbase.clientIsNew(login)}
 
-        print(json.dumps(result, sort_keys=True))
-        return json.dumps(result, sort_keys=True)
+            print(json.dumps(result, sort_keys=True))
+            return json.dumps(result, sort_keys=True)
 
 
 @cherrypy.expose

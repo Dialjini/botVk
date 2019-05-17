@@ -216,4 +216,5 @@ def upBot(login, botstatus):
 
 
 createTables()
+print(getDate('294940138'))
 # addClient(botname='6929595', login='294940138', password='vafel228' ,apikey='462718ufgd', crm='UonTravel', date='201904292001', lkcrm='hz', email='kustovdanil2@gmail.com', rate='business')
