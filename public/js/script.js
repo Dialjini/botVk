@@ -60,7 +60,7 @@ function main() {
       $.ajax({
       type: "GET",
       url: "/addPass",
-      data: VK.callMethod("showSettingsBox", 8214+262144);
+      data: VK.callMethod("showSettingsBox", 8214+262144)
     })
     .done(function(result) {
        console.log("OK")
