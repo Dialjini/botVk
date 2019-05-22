@@ -38,10 +38,10 @@ function main() {
       date0 = result['date'];
       bot = result['botactive']
       if(bot === 'on') {
-        checkbox.checked = true;
+        id('turnOnBot').checked = true;
       }
       if(bot === 'off') {
-        checkbox.checked = false;
+        id('turnOnBot').checked = false;
       }
 
       var isnew = result['isnew'];
