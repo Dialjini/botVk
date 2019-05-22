@@ -82,6 +82,8 @@ def deleteClient(login):
     conn = sqlite3.connect("vk.db")
     cursor = conn.cursor()
     cursor.execute("""DELETE FROM client WHERE login = ?""", (login,))
+    conn.commit()
+    print('User ' + str(login) + ' was deleted.')
 
 
 def getLimit(login):
@@ -214,7 +216,22 @@ def upBot(login, botstatus):
     cursor.execute("""UPDATE client SET botactive = ? WHERE login = ?""", (botstatus, login))
     conn.commit()
 
+def getBotStatus(login):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    row = cursor.execute("""SELECT botactive FROM client WHERE login = ?""", (login,))
+
+    return row.fetchall()[0][0]
+
+def getPass(login):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    row = cursor.execute("""SELECT password FROM client WHERE login = ?""", (login,))
+
+    return row.fetchall()[0][0]
 
 createTables()
-print(getDate('294940138'))
-# addClient(botname='6929595', login='294940138', password='vafel228' ,apikey='462718ufgd', crm='UonTravel', date='201904292001', lkcrm='hz', email='kustovdanil2@gmail.com', rate='business')
+# print(getClients())
+# deleteClient(180547049)
+# deleteClient(294940138)
+# addClient(botname='6929595', login='294940138', password='no' ,apikey='462718ufgd', crm='UonTravel', date='201904292001', lkcrm='hz', email='kustovdanil2@gmail.com', rate='business')

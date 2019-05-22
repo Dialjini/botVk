@@ -10,7 +10,6 @@ url = '31.31.201.218:8050'
 
 # -------------------------------------------------<Threading>----------------------------------------------------------
 
-botactive = 'off'
 active_clients = []
 
 
@@ -79,7 +78,9 @@ def getCount(balance):
 
 class user():
     login = ''
+    password = 'no'
     botname = ''
+    botactive = 'off'
 
 
 @cherrypy.expose
@@ -87,9 +88,10 @@ class GetForm(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
         print(data)
-        if data == {'login': 'test', 'botname': 'test'}:
+        if dbase.clientIsNew(user.login):
             date = '... Пока он еще не начался...'
-            result = {'date': date, 'isnew': True}
+            result = {'login': user.login, 'date': date, 'isnew': True}
+
             print(json.dumps(result, sort_keys=True))
             return json.dumps(result, sort_keys=True)
         else:
@@ -105,7 +107,8 @@ class GetForm(object):
             balance = dbase.getBalance(login=login)
             result = {'date': date, 'balance': balance,
                     'count': getCount(balance), 'crm': dbase.getFields(login)[0], 'lkcrm': dbase.getFields(login)[1],
-                    'apikey': dbase.getFields(login)[2], 'rate': dbase.getRate(login), 'isnew': dbase.clientIsNew(login)}
+                    'apikey': dbase.getFields(login)[2], 'rate': dbase.getRate(login), 'isnew': dbase.clientIsNew(login), 'login': user.login,
+                      'botactive': dbase.getBotStatus(login)}
 
             print(json.dumps(result, sort_keys=True))
             return json.dumps(result, sort_keys=True)
@@ -126,7 +129,7 @@ class UpdateClient(object):
             else:
                 date = dbase.getToday()['result'] - 12000000
             dbase.addClient(botname=botname, login=login, crm=data['crm'], date=date, apikey=data['apikey'],
-                            email='0', lkcrm=data['lkcrm'], password='', rate='1 месяц')
+                            email='0', lkcrm=data['lkcrm'], password=user.password, rate='1 месяц')
         else:
             dbase.updateClient(botname=botname, login=login, crm=data['crm'], lkcrm=data['lkcrm'],
                                apikey=data['apikey'])
@@ -137,7 +140,6 @@ class GenerateHtml(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
         if (data != {'login': 'test', 'botname': 'test'}):
-            print(data)
             user.login = data['group_id']
             user.botname = data['api_id']
             return open(file='index.html', encoding='utf8')
@@ -172,8 +174,12 @@ class upMoney(object):
 class AddPass(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
-        token = data['access_token']
-        dbase.addPass(password=token, login=user.login)
+        for i in data.keys():
+            print(i)
+            print(user.login)
+            dbase.addPass(password=i, login=user.login)
+            user.password = i
+        return "OK"
 
 @cherrypy.expose
 class BotStatus(object):
@@ -203,8 +209,8 @@ conf = {
     }
 }
 
-cherrypy.config.update({'server.socket_host': '31.31.201.218',
-                        'server.socket_port': 8050,
+cherrypy.config.update({'server.socket_host': '127.0.0.1',
+                        'server.socket_port': 443,
                         'tools.sessions.on': True,
                         'engine.autoreload.on': False,
                         'log.access_file': './access.log',

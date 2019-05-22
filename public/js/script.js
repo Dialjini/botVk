@@ -4,9 +4,10 @@ var time = 12;
 var date0 = '?? апреля ????г. в ??:??';
 var login = 'test';
 var botname = 'test';
-var crm = ''
-var lkcrm = 'hz'
-var apikey = '4t1278fbskd'
+var crm = '';
+var lkcrm = 'hz';
+var apikey = '4t1278fbskd';
+
 
 
 function getWidget() {
@@ -33,39 +34,56 @@ function main() {
       console.log(result);
       console.log(JSON.parse(result));
       result = JSON.parse(result);
+      login = result['login']
       date0 = result['date'];
-      if (result['isnew'] === true) {
+      bot = result['botactive']
+      if(bot === 'on') {
+        checkbox.checked = true;
+      }
+      if(bot === 'off') {
+        checkbox.checked = false;
+      }
+
+      var isnew = result['isnew'];
+
+      VK.addCallback('onGroupSettingsChanged', function (mask, token){
       $.ajax({
       type: "GET",
       url: "/addPass",
-      data: VK.callMethod("showSettingsBox", 8214+262144)
+      data: token
     })
     .done(function(result) {
-       console.log("OK")
-    });}
-      tariff = result['rate'];
-      crm = result['crm'];
-      lkcrm = result['lkcrm'];
-      apikey = result['apikey'];
+       console.log(result)
+    });})
+      if (isnew === true) {
+      VK.callMethod("showGroupSettingsBox", 8214+262144);
+      }
 
-      count = parseInt(result['balance']);
-      time = result['count'];
-      id('crm').value = crm;
-      if (crm === 'email') {
-        id('email').value = lkcrm;
-      } else {
-        id('linkCRM').value = lkcrm;
-      }
-      id('api-key').value = apikey;
-      id('date').innerHTML = date0;
-      id('count').innerHTML = count.toFixed(2) + " &#8381;";
-      id('countTo').innerHTML = count.toFixed(2) + " &#8381;";
-      id('tariff').innerHTML = tariff;
-      id('time').innerHTML = time;
-      if (id('crm').value === 'email') {
-        $('.email').fadeIn(1000);
-        $('.linkCRM').fadeOut(0);
-      }
+      if (result['isnew'] != true){
+        tariff = result['rate'];
+        crm = result['crm'];
+        lkcrm = result['lkcrm'];
+        apikey = result['apikey'];
+
+        count = parseInt(result['balance']);
+        time = result['count'];
+        id('crm').value = crm;
+        if (crm === 'email') {
+            id('email').value = lkcrm;
+        } else {
+            id('linkCRM').value = lkcrm;
+        }
+        id('api-key').value = apikey;
+        id('date').innerHTML = date0;
+        id('count').innerHTML = count.toFixed(2) + " &#8381;";
+        id('countTo').innerHTML = count.toFixed(2) + " &#8381;";
+        id('tariff').innerHTML = tariff;
+        id('time').innerHTML = time;
+        if (id('crm').value === 'email') {
+           $('.email').fadeIn(1000);
+           $('.linkCRM').fadeOut(0);
+        }
+        }
     });
 
   //document.getElementById("count").innerHTML = count.toFixed(2) + " &#8381;";
