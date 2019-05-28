@@ -13,6 +13,30 @@ def clientIsNew(login):
             return False
     return True
 
+def getUserInfo(username):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    row = cursor.execute("""SELECT username, country, resort, fromcity, date, price, adults,
+    children, step, botname, message FROM user WHERE username = ?""", (username,))
+
+    return row.fetchall()[0]
+
+def addUser(username, country, resort, fromcity, date, price, adults, children, step, botname):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    cursor.execute("""INSERT INTO user VALUES (?,?,?,?,?,?,?,?,?,?,0)""", (username, country, resort, fromcity, date, price, adults,
+                                                                                      children, step, botname))
+    conn.commit()
+
+def userUpdate(username, country, resort, fromcity, date, price, adults, children, step):
+    conn = sqlite3.connect("vk.db")
+    cursor = conn.cursor()
+    cursor.execute("""UPDATE user SET country = ?, resort = ?, fromcity = ?, date = ?, price = ?, adults = ?, children = ?, step = ? WHERE username = ?""",
+                   (country, resort, fromcity, date, price, adults, children, step, username))
+    conn.commit()
+
+
+
 
 def getToday():
     realDate = str(datetime.datetime.today())
@@ -192,10 +216,13 @@ def createTables():
     cursor.execute("""CREATE TABLE IF NOT EXISTS client
                   (botname text, login text, password text, rate text, apikey text, crm text, balance text, email text, lkcrm text, date text, botactive text)
                    """)
-    conn.commit()
-
     print('client table is ready')
-
+    cursor.execute("""CREATE TABLE user
+                   (username text ,country text, resort text, fromcity text, date text, price text, adults text, children text,
+                   step text, botname text, message text)
+                   """)
+    print('user table is ready')
+    conn.commit()
 
 def getActiveUsers():
     conn = sqlite3.connect("vk.db")
