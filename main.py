@@ -3,6 +3,7 @@ import os, os
 import json
 import dbase
 import price
+import vk_manager as vk
 from threading import Thread
 from cherrypy.lib import static
 
@@ -12,42 +13,60 @@ url = '31.31.201.218:8050'
 
 active_clients = []
 
-
 def botWork(login):
-    return 'OK'
+    print('works!')
+    vk.polling(token=dbase.getToken(login=login), login=login)
+
+
+def startThread(login):
+    active_clients.append({'login': login, 'thread': Thread(target=botWork, args=(login,))})
+    for i in active_clients:
+        if login == i['login']:
+            try:
+                i['thread'].start()
+            except Exception as er:
+                print(er)
+            break
+    print('active_clients after adding: ', active_clients)
 
 
 def closeThread(login):
     for i in active_clients:
         if login == i['login']:
+            i['thread'].join()
             active_clients.remove(i)
             break
+    print('active_clients after removal: ', active_clients)
 
 
 def upBot(login, status):
     if status == 'on':
-        active_clients.append({'login': login, 'thread': Thread(target=botWork, args=(login,))})
+        dbase.updateThreadStatus(login=login, status=True)
+        startThread(login)
 
     if status == 'off':
+        dbase.updateThreadStatus(login=login, status=True)
         closeThread(login)
 
 
 for i in dbase.getActiveUsers():
-    active_clients.append({'login': i[0], 'thread': Thread(target=botWork, args=(i[0],))})
+    dbase.updateThreadStatus(i[0], False)
+    startThread(i[0])
+
 
 
 # --------------------------------------------------<Functions>---------------------------------------------------------
 
 def reloadSubscribe(login):
-    if (dbase.getBalance(login) >= 18490):
+    if (int(dbase.getBalance(login)) >= 18490):
         dbase.updateRate(login, '1 год.')
         dbase.updateBalance(login, -18490)
         return True
-    if (dbase.getBalance(login) >= 4990):
+    if (int(dbase.getBalance(login)) >= 4990):
         dbase.updateRate(login, '3 месяца.')
         dbase.updateBalance(login, -4990)
         return True
-    if (dbase.getBalance(login) >= 2490):
+    if (int(dbase.getBalance(login)) >= 2490):
         dbase.updateRate(login, '1 месяц.')
         dbase.updateBalance(login, -2490)
         return True
@@ -87,18 +106,14 @@ class user():
 class GetForm(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
-        print(data)
         if dbase.clientIsNew(user.login):
             date = '... Пока он еще не начался...'
             result = {'login': user.login, 'date': date, 'isnew': True}
 
-            print(json.dumps(result, sort_keys=True))
             return json.dumps(result, sort_keys=True)
         else:
             login = user.login
             botname = user.botname
-            print(botname)
-            print(login)
             date = dbase.getDate(login=login)
             if (dbase.getLimit(login) == -1):
                 check = reloadSubscribe(login)
@@ -110,7 +125,6 @@ class GetForm(object):
                     'apikey': dbase.getFields(login)[2], 'rate': dbase.getRate(login), 'isnew': dbase.clientIsNew(login), 'login': user.login,
                       'botactive': dbase.getBotStatus(login)}
 
-            print(json.dumps(result, sort_keys=True))
             return json.dumps(result, sort_keys=True)
 
 
@@ -121,7 +135,6 @@ class UpdateClient(object):
         print('here ' + str(data))
         botname = user.botname
         login = user.login
-        print(dbase.clientIsNew(login))
         if (dbase.clientIsNew(login)):
             print('login is ' + login)
             if (dbase.getToday()['flag'] == '+'):
@@ -145,9 +158,6 @@ class GenerateHtml(object):
             return open(file='index.html', encoding='utf8')
 
         else:
-            print(data)
-            print('login = ' + user.login)
-            print('botname = ' + user.botname)
             return json.dumps({'login': user.login, 'botname': user.botname}, sort_keys=True)
 
 
@@ -175,8 +185,6 @@ class AddPass(object):
     @cherrypy.tools.accept(media='text/plain')
     def GET(self, **data):
         for i in data.keys():
-            print(i)
-            print(user.login)
             dbase.addPass(password=i, login=user.login)
             user.password = i
         return "OK"

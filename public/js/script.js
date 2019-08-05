@@ -56,7 +56,7 @@ function main() {
        console.log(result)
     });})
       if (isnew === true) {
-      VK.callMethod("showGroupSettingsBox", 8214+262144);
+      VK.callMethod("showGroupSettingsBox", 397381);
       }
 
       if (result['isnew'] != true){
@@ -118,10 +118,8 @@ function checkBot(checkbox) {
               'login': login,
               'mode': 'off'
             }
-          })
-          .done(function() {
-            alert("Бот выключен");
           });
+         alert("Бот выключен");
       }
     } else {
       alert("Бот отключён. Пополните баланс.");
